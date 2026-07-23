@@ -1,0 +1,1188 @@
+/* ── Google Fonts ─────────────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Bricolage+Grotesque:wght@700;800&family=Instrument+Serif:ital,wght@0,400;1,400&family=Caveat:wght@400;500&display=swap");
+@import "tailwindcss";
+
+/* ── Root defaults ────────────────────────────────────────────────────── */
+:root {
+  --accent:     #4FFFB0;
+  --accent-dim: rgba(79, 255, 176, 0.25);
+  --bg:         #0A0A0A;
+}
+
+.heading {
+  font-family: "Bricolage Grotesque", "Outfit", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.italic-serif {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+}
+
+/* ── Dynamic Accent Bridge for hardcoded Tailwind arbitrary hex values ── */
+[class*="text-[#4FFFB0]"] {
+  color: var(--accent) !important;
+}
+[class*="border-[#4FFFB0]"] {
+  border-color: var(--accent) !important;
+}
+[class*="border-[#4FFFB0]/"] {
+  border-color: var(--accent-dim) !important;
+}
+[class*="bg-[#4FFFB0]"] {
+  background-color: var(--accent) !important;
+}
+[class*="bg-[#4FFFB0]/"] {
+  background-color: var(--accent-dim) !important;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Outfit", "Inter", sans-serif;
+  background-color: var(--bg);
+  color: #fff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Universal Device Responsiveness & Touch Safeguards ──────────────── */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden !important;
+  touch-action: manipulation;
+}
+
+@media (max-width: 640px) {
+  .heading-premium {
+    font-size: 2.1rem !important;
+    line-height: 1.2 !important;
+  }
+}
+
+/* ── High Performance Hardware Acceleration & Smooth FPS ────────────────── */
+* {
+  text-rendering: optimizeSpeed;
+}
+
+section, nav, footer, .glass {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ── Frost Pearl & Deep Emerald Luxury Light Mode Suite ──────────────────── */
+html.light {
+  --bg: #F1F5F9;
+  --surface: #FFFFFF;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --accent: #059669;
+  --accent-dim: rgba(5, 150, 105, 0.14);
+  color-scheme: light;
+}
+
+html.light body,
+html.light main,
+html.light section,
+html.light footer {
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+}
+
+/* Universal Background Overrides for Light Mode (Targeting inline styles & dark classes) */
+html.light section,
+html.light footer,
+html.light [style*="background: #0A0A0A"],
+html.light [style*="background:#0A0A0A"],
+html.light [style*="background: #060609"],
+html.light [style*="background:#060609"],
+html.light [style*="background: rgb(10, 10, 10)"],
+html.light [style*="background: #0d0d12"],
+html.light [style*="background:#0d0d12"],
+html.light [style*="background: #000"],
+html.light [style*="background:#000"],
+html.light [style*="background: black"] {
+  background-color: #F1F5F9 !important;
+  background: #F1F5F9 !important;
+  color: #0F172A !important;
+}
+
+/* Stunning Light Mode Gradient Titles */
+html.light .heading-premium {
+  background: linear-gradient(135deg, #0F172A 30%, #059669 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+html.light .heading-italic {
+  color: #059669 !important;
+}
+
+/* Force rich slate text on all typography */
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4,
+html.light h5,
+html.light h6,
+html.light th,
+html.light td,
+html.light label,
+html.light [class*="gsap-title"],
+html.light [class*="gsap-word"] {
+  color: #0F172A !important;
+  text-shadow: none !important;
+}
+
+html.light p,
+html.light li,
+html.light dt,
+html.light dd,
+html.light span:not([class*="text-[#4FFFB0]"]) {
+  color: #334155 !important;
+}
+
+html.light .text-white,
+html.light .text-white\/90,
+html.light .text-white\/80,
+html.light .text-white\/70,
+html.light .text-white\/60,
+html.light .text-white\/50,
+html.light .text-gray-100,
+html.light .text-gray-200,
+html.light .text-gray-300,
+html.light .text-gray-400 {
+  color: #0F172A !important;
+}
+
+html.light .text-gray-500,
+html.light .text-white\/40,
+html.light .text-white\/30 {
+  color: #475569 !important;
+}
+
+/* Form Inputs in Light Mode */
+html.light input,
+html.light textarea,
+html.light select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: rgba(15, 23, 42, 0.18) !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #64748B !important;
+}
+
+/* Premium Frost Pearl Cards with Emerald Glow Shadow */
+html.light .glass,
+html.light [class*="bg-[#0A0A0A]"],
+html.light [class*="bg-[#0d0d12]"],
+html.light [class*="bg-neutral-950"],
+html.light [class*="bg-neutral-900"],
+html.light [class*="bg-black/"],
+html.light [class*="bg-white/5"],
+html.light [class*="bg-white/10"],
+html.light [class*="bg-white/[0.0"] {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(15, 23, 42, 0.03) !important;
+  color: #0F172A !important;
+}
+
+/* Modals & Floating Windows in Light Mode */
+html.light [class*="max-w-xl"],
+html.light [class*="max-w-2xl"],
+html.light [class*="max-w-[380px]"] {
+  background-color: #FFFFFF !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12) !important;
+}
+
+/* Border visibility in Light Mode */
+html.light [class*="border-white"],
+html.light [class*="border-white/"] {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+/* Light Mode Navbar */
+html.light nav {
+  background: rgba(241, 245, 249, 0.94) !important;
+  border-bottom-color: rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light nav button,
+html.light nav a,
+html.light nav span,
+html.light nav p,
+html.light nav div {
+  color: #0F172A !important;
+}
+
+html.light nav button[class*="bg-white/5"] {
+  background: rgba(15, 23, 42, 0.08) !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+  color: #0F172A !important;
+}
+
+html.light nav kbd {
+  background: rgba(15, 23, 42, 0.1) !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+  color: #0F172A !important;
+}
+
+/* HUD badges and accent tags in Light Mode */
+html.light .hud-badge {
+  background: rgba(5, 150, 105, 0.12) !important;
+  color: #059669 !important;
+  border: 1px solid rgba(5, 150, 105, 0.3) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 0 15px rgba(5, 150, 105, 0.15) !important;
+}
+
+/* Accent button overrides in Light Mode */
+html.light [class*="bg-[#4FFFB0]"] {
+  background-color: #059669 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 20px rgba(5, 150, 105, 0.3) !important;
+}
+
+html.light [class*="text-[#4FFFB0]"] {
+  color: #059669 !important;
+}
+
+html.light nav div[class*="border-white"] {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+/* Soft ambient lighting in Light Mode */
+html.light [class*="bg-[linear-gradient(to_bottom"] {
+  background: linear-gradient(to bottom, rgba(241, 245, 249, 0) 0%, rgba(241, 245, 249, 0.85) 70%, #F1F5F9 100%) !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+/* ── Custom scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; background: #0a0a0a; }
+::-webkit-scrollbar-track  { background: #0a0a0a; }
+::-webkit-scrollbar-thumb  { background: rgba(79,255,176,0.35); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(79,255,176,0.6); }
+
+/* ── Selection color ──────────────────────────────────────────────────── */
+::selection { background: rgba(79,255,176,0.25); color: #fff; }
+
+/* ── Utility: gradient text ───────────────────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(135deg, #4FFFB0, #7abfab 50%, #4a9a7a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Utility: glass card ──────────────────────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+/* ── Utility: glow border ─────────────────────────────────────────────── */
+.glow-border {
+  box-shadow: 0 0 0 1px rgba(79,255,176,0.2), 0 0 20px rgba(79,255,176,0.07);
+}
+.glow-border:hover {
+  box-shadow: 0 0 0 1px rgba(79,255,176,0.4), 0 0 35px rgba(79,255,176,0.12);
+}
+
+.cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(79, 255, 176, 0.28);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, rgba(79, 255, 176, 0.04), transparent 64%),
+    rgba(2, 3, 7, 0.025);
+  box-shadow:
+    0 0 16px rgba(79, 255, 176, 0.08),
+    inset 0 0 14px rgba(79, 255, 176, 0.035);
+  mix-blend-mode: screen;
+  transition:
+    opacity 180ms ease,
+    width 180ms ease,
+    height 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.cursor-follower--active {
+  border-color: rgba(79, 255, 176, 0.42);
+  background-color: rgba(79, 255, 176, 0.035);
+}
+
+.cursor-follower--down {
+  width: 34px;
+  height: 34px;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-follower {
+    display: none;
+  }
+}
+
+.aurora-field {
+  position: absolute;
+  inset: -22% -30% auto -30%;
+  height: 86vh;
+  transform: rotate(-8deg);
+  filter: blur(12px) saturate(1);
+  opacity: 1;
+}
+
+.aurora-ribbon {
+  position: absolute;
+  left: 50%;
+  width: 150vw;
+  height: 50vh;
+  border-radius: 999px;
+  mix-blend-mode: screen;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity, filter;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 68%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 68%,
+    transparent 100%
+  );
+}
+
+.aurora-ribbon-one {
+  top: 16vh;
+  background:
+    radial-gradient(
+      ellipse at 16% 50%,
+      rgba(31, 122, 95, 0.78),
+      transparent 28%
+    ),
+    radial-gradient(
+      ellipse at 48% 46%,
+      rgba(51, 95, 186, 0.76),
+      transparent 32%
+    ),
+    radial-gradient(
+      ellipse at 78% 52%,
+      rgba(122, 43, 77, 0.68),
+      transparent 30%
+    );
+  animation: aurora-wave-one 9s ease-in-out infinite alternate;
+}
+
+.aurora-ribbon-two {
+  top: 7vh;
+  height: 44vh;
+  background:
+    radial-gradient(
+      ellipse at 24% 48%,
+      rgba(64, 145, 124, 0.62),
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at 58% 42%,
+      rgba(101, 31, 52, 0.66),
+      transparent 32%
+    ),
+    radial-gradient(
+      ellipse at 86% 50%,
+      rgba(31, 79, 134, 0.64),
+      transparent 32%
+    );
+  opacity: 0.9;
+  animation: aurora-wave-two 12s ease-in-out infinite alternate;
+}
+
+.aurora-ribbon-three {
+  top: 25vh;
+  height: 42vh;
+  background:
+    radial-gradient(
+      ellipse at 18% 50%,
+      rgba(45, 61, 82, 0.66),
+      transparent 34%
+    ),
+    radial-gradient(
+      ellipse at 52% 44%,
+      rgba(139, 58, 98, 0.56),
+      transparent 32%
+    ),
+    radial-gradient(
+      ellipse at 82% 54%,
+      rgba(31, 122, 95, 0.58),
+      transparent 30%
+    );
+  opacity: 0.78;
+  animation: aurora-wave-three 14s ease-in-out infinite alternate;
+}
+
+.aurora-glow {
+  position: absolute;
+  inset: -18% -10% auto -10%;
+  height: 68vh;
+  background:
+    radial-gradient(
+      circle at 22% 16%,
+      rgba(31, 122, 95, 0.38),
+      transparent 36%
+    ),
+    radial-gradient(
+      circle at 52% 10%,
+      rgba(51, 95, 186, 0.36),
+      transparent 38%
+    ),
+    radial-gradient(circle at 82% 18%, rgba(122, 43, 77, 0.32), transparent 36%);
+  filter: blur(46px) saturate(0.95);
+  mix-blend-mode: screen;
+  animation: aurora-breathe 12s ease-in-out infinite alternate;
+}
+
+.aurora-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(2, 3, 7, 0) 0%,
+      rgba(2, 3, 7, 0.28) 58%,
+      #020307 100%
+    ),
+    radial-gradient(
+      circle at 50% 0%,
+      transparent 0%,
+      rgba(2, 3, 7, 0.12) 62%,
+      rgba(2, 3, 7, 0.62) 100%
+    );
+}
+
+.aurora-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+}
+
+@keyframes aurora-wave-one {
+  from {
+    opacity: 0.82;
+    transform: translate3d(-54%, 0, 0) rotate(4deg) skewX(-10deg) scaleX(1);
+  }
+
+  to {
+    opacity: 0.96;
+    transform: translate3d(-46%, 5vh, 0) rotate(-3deg) skewX(8deg) scaleX(1.08);
+  }
+}
+
+@keyframes aurora-wave-two {
+  from {
+    transform: translate3d(-45%, 4vh, 0) rotate(-6deg) skewX(8deg) scaleX(1.08);
+  }
+
+  to {
+    transform: translate3d(-56%, -2vh, 0) rotate(3deg) skewX(-7deg) scaleX(0.98);
+  }
+}
+
+@keyframes aurora-wave-three {
+  from {
+    opacity: 0.56;
+    transform: translate3d(-58%, -1vh, 0) rotate(2deg) skewX(-5deg) scaleX(0.96);
+  }
+
+  to {
+    opacity: 0.78;
+    transform: translate3d(-47%, 4vh, 0) rotate(-5deg) skewX(7deg) scaleX(1.1);
+  }
+}
+
+@keyframes aurora-breathe {
+  from {
+    opacity: 0.62;
+    transform: translate3d(-2%, 0, 0) scale(1);
+  }
+
+  to {
+    opacity: 0.82;
+    transform: translate3d(2%, 2vh, 0) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-ribbon,
+  .aurora-glow {
+    animation: none;
+  }
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  25% {
+    transform: translate(120px, 80px) scale(1.1);
+  }
+
+  50% {
+    transform: translate(60px, 160px) scale(0.9);
+  }
+
+  75% {
+    transform: translate(-80px, 100px) scale(1.05);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes blob2 {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  25% {
+    transform: translate(-100px, -50px) scale(0.95);
+  }
+
+  50% {
+    transform: translate(-150px, -120px) scale(1.1);
+  }
+
+  75% {
+    transform: translate(50px, -80px) scale(1);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 18s infinite ease-in-out;
+}
+
+.animate-blob2 {
+  animation: blob2 22s infinite ease-in-out;
+}
+
+/* ── Marquee Ticker ───────────────────────────────────────────────────── */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 32s linear infinite;
+}
+
+@keyframes scroll-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-scroll-right {
+  animation: scroll-right 32s linear infinite;
+}
+
+/* ── Premium animations ────────────────────────────────────────────── */
+
+/* Float — gentle up/down levitation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+/* Float slow */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-18px); }
+}
+.animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+
+/* Shimmer — horizontal light sweep */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent    0%,
+    rgba(79,255,176,0.15) 40%,
+    rgba(79,255,176,0.35) 50%,
+    rgba(79,255,176,0.15) 60%,
+    transparent  100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.8s ease-in-out infinite;
+}
+
+/* Pulse glow — luminous breathing */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(79,255,176,0.2), 0 0 28px rgba(79,255,176,0.08); }
+  50%       { box-shadow: 0 0 24px rgba(79,255,176,0.45), 0 0 56px rgba(79,255,176,0.18); }
+}
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+
+/* Gradient pan — moving background gradient */
+@keyframes gradient-pan {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient-pan {
+  background-size: 300% 300%;
+  animation: gradient-pan 5s ease infinite;
+}
+
+/* Text reveal — reveal text from left (clip) */
+@keyframes text-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+.animate-text-reveal {
+  animation: text-reveal 0.9s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+/* Fade up — simple entrance */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fade-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Spin slow */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 20s linear infinite; }
+
+/* Spin slow reverse */
+.animate-spin-slow-r { animation: spin-slow 15s linear infinite reverse; }
+
+/* ── Section divider line animation ───────────────────────────────── */
+@keyframes line-expand {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+.animate-line-expand {
+  animation: line-expand 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── Reduced motion overrides ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-slow,
+  .animate-shimmer,
+  .animate-pulse-glow,
+  .animate-gradient-pan,
+  .animate-text-reveal,
+  .animate-fade-up,
+  .animate-spin-slow,
+  .animate-spin-slow-r,
+  .animate-line-expand,
+  .animate-blob,
+  .animate-blob2,
+  .animate-float-orbit-1,
+  .animate-float-orbit-2,
+  .animate-float-orbit-3 {
+    animation: none !important;
+  }
+}
+
+/* ── SVG Border Tracing & Orbit Badges ────────────────────────────── */
+
+@keyframes border-trace {
+  0% {
+    stroke-dashoffset: 1200;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+.svg-border-trace {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  transition: stroke-dashoffset 0.8s ease-in-out;
+}
+
+@keyframes float-orbit-1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(5deg); }
+}
+@keyframes float-orbit-2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(10px) rotate(-6deg); }
+}
+@keyframes float-orbit-3 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(8deg); }
+}
+.animate-float-orbit-1 { animation: float-orbit-1 5s ease-in-out infinite; }
+.animate-float-orbit-2 { animation: float-orbit-2 6s ease-in-out infinite; }
+.animate-float-orbit-3 { animation: float-orbit-3 4.5s ease-in-out infinite; }
+
+/* ── Premium Eye-Catching Neon Glowing Utilities ── */
+.text-neon-glow {
+  text-shadow: 0 0 10px var(--accent-dim), 0 0 20px rgba(79, 255, 176, 0.2);
+}
+.border-neon-glow {
+  box-shadow: 0 0 15px rgba(79, 255, 176, 0.15), inset 0 0 10px rgba(79, 255, 176, 0.05);
+}
+.cyber-card-glow {
+  background: linear-gradient(135deg, rgba(13, 13, 18, 0.95) 0%, rgba(7, 7, 10, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+.cyber-card-glow:hover {
+  border-color: rgba(79, 255, 176, 0.2);
+  box-shadow: 0 0 30px rgba(79, 255, 176, 0.08), inset 0 0 12px rgba(79, 255, 176, 0.03);
+}
+
+/* ── Shimmer Loading Keyframes ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* ── Premium Cinematic Typography System ── */
+.heading-premium {
+  font-family: "Bricolage Grotesque", "Outfit", sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #ffffff 30%, #e2e8f0 70%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 25px rgba(79, 255, 176, 0.12));
+  line-height: 1.15;
+}
+
+/* Elegant italic serif contrasts */
+.heading-italic {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  background: linear-gradient(135deg, #4FFFB0 30%, #34d399 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  text-shadow: 0 0 30px rgba(79, 255, 176, 0.25);
+}
+
+/* Cybernetic HUD mini-badges above headings */
+.hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(79, 255, 176, 0.15);
+  background: rgba(79, 255, 176, 0.03);
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(79, 255, 176, 0.05);
+}
+
+/* ── Ripple button animation ──────────────────────────────────────────────── */
+@keyframes ripple-expand {
+  0%   { transform: scale(0);  opacity: 1; }
+  100% { transform: scale(1);  opacity: 0; }
+}
+
+/* ── Floating orb ambient animation ──────────────────────────────────────── */
+@keyframes float-orb {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-14px) rotate(1.5deg); }
+  66%       { transform: translateY(8px) rotate(-1deg); }
+}
+.float-orb {
+  animation: float-orb 7s ease-in-out infinite;
+}
+
+/* ── Stat counter glow pulse ──────────────────────────────────────────────── */
+@keyframes glow-pulse {
+  0%, 100% { text-shadow: 0 0 15px rgba(79,255,176,0.35); }
+  50%       { text-shadow: 0 0 35px rgba(79,255,176,0.7), 0 0 60px rgba(79,255,176,0.2); }
+}
+.stat-glow {
+  animation: glow-pulse 2.8s ease-in-out infinite;
+}
+
+/* ── Gradient mesh blend mode ─────────────────────────────────────────────── */
+.mesh-blend {
+  mix-blend-mode: screen;
+}
+
+/* ── Scanline overlay for cinematic cards ─────────────────────────────────── */
+@keyframes scanline-move {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+.scanline-anim {
+  animation: scanline-move 3s linear infinite;
+}
+
+/* ── Letter shimmer for hero name ─────────────────────────────────────────── */
+@keyframes letter-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+.heading-shimmer {
+  background: linear-gradient(135deg, #ffffff 20%, #4FFFB0 50%, #e2e8f0 80%);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: letter-shimmer 5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PREMIUM UPGRADE — Additional Design Utilities
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Premium Glass Card ─────────────────────────────────────────────────── */
+.premium-glass {
+  background: rgba(13, 13, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.premium-glass:hover {
+  border-color: rgba(79, 255, 176, 0.18);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 0 0 30px rgba(79, 255, 176, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ── Neon Glow Card ──────────────────────────────────────────────────────── */
+.neon-glow-card {
+  position: relative;
+  transition: all 0.4s ease;
+}
+.neon-glow-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(79, 255, 176, 0.15), transparent 50%, rgba(79, 255, 176, 0.08));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+.neon-glow-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Animated Gradient Border ───────────────────────────────────────────── */
+@keyframes border-rotate {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animated-border {
+  position: relative;
+}
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #4FFFB0, #a855f7, #38bdf8, #4FFFB0);
+  background-size: 300% 300%;
+  animation: border-rotate 4s ease infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.animated-border:hover::before {
+  opacity: 0.6;
+}
+
+/* ── Glowing Section Divider ────────────────────────────────────────────── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(79, 255, 176, 0.4), rgba(168, 85, 247, 0.3), rgba(79, 255, 176, 0.4), transparent);
+  position: relative;
+}
+.section-divider::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, rgba(79, 255, 176, 0.15), transparent);
+  filter: blur(4px);
+}
+
+/* ── Premium Button Glow ─────────────────────────────────────────────────── */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.btn-premium::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform 0.6s ease;
+}
+.btn-premium:hover::after {
+  transform: translateX(200%) skewX(-15deg);
+}
+
+/* ── Floating Particle ───────────────────────────────────────────────────── */
+@keyframes float-particle {
+  0%   { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-120px) translateX(20px) rotate(180deg); opacity: 0; }
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float-particle linear infinite;
+}
+
+/* ── Premium Input Focus ─────────────────────────────────────────────────── */
+.input-premium {
+  transition: all 0.3s ease;
+  outline: none;
+}
+.input-premium:focus {
+  box-shadow: 0 0 0 2px rgba(79, 255, 176, 0.2), 0 0 20px rgba(79, 255, 176, 0.08);
+}
+
+/* ── Glowing Tag Badge ───────────────────────────────────────────────────── */
+.tag-glow {
+  position: relative;
+  overflow: hidden;
+}
+.tag-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(79, 255, 176, 0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+.tag-glow:hover::before {
+  transform: translateX(100%);
+}
+
+/* ── Orbit Animation ─────────────────────────────────────────────────────── */
+@keyframes orbit {
+  0%   { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+}
+.orbit-element {
+  animation: orbit 8s linear infinite;
+}
+
+/* ── Cyberpunk Grid ──────────────────────────────────────────────────────── */
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(79, 255, 176, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 255, 176, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* ── Text Gradient Animated ─────────────────────────────────────────────── */
+@keyframes text-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.text-gradient-animated {
+  background: linear-gradient(135deg, #4FFFB0, #38bdf8, #a855f7, #4FFFB0);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-gradient-shift 6s ease infinite;
+}
+
+/* ── Neon Ping Dot ───────────────────────────────────────────────────────── */
+@keyframes neon-ping {
+  0%   { transform: scale(1); opacity: 0.8; }
+  70%  { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.neon-ping {
+  animation: neon-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* ── Stagger reveal utility ──────────────────────────────────────────────── */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stagger-item.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 3D Perspective Container ───────────────────────────────────────────── */
+.perspective-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* ── Premium Scrollbar Enhancement ─────────────────────────────────────── */
+::-webkit-scrollbar        { width: 4px; background: #060609; }
+::-webkit-scrollbar-track  { background: #060609; }
+::-webkit-scrollbar-thumb  {
+  background: linear-gradient(to bottom, rgba(79,255,176,0.4), rgba(168,85,247,0.3));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, rgba(79,255,176,0.7), rgba(168,85,247,0.5));
+}
+
+/* ── Counter Number Animation ───────────────────────────────────────────── */
+@keyframes count-up-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(79, 255, 176, 0.4)); }
+  50%       { filter: drop-shadow(0 0 20px rgba(79, 255, 176, 0.8)); }
+}
+.count-glow {
+  animation: count-up-glow 2s ease-in-out infinite;
+}
+
+/* ── Ambient Noise Texture ──────────────────────────────────────────────── */
+.noise-texture {
+  position: relative;
+}
+.noise-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.025;
+}
+
+/* ── Gradient text highlight ────────────────────────────────────────────── */
+.text-highlight {
+  background: linear-gradient(135deg, #4FFFB0 0%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Premium Section Badge ───────────────────────────────────────────────── */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(79, 255, 176, 0.06), rgba(79, 255, 176, 0.02));
+  border: 1px solid rgba(79, 255, 176, 0.18);
+  color: rgba(79, 255, 176, 0.9);
+  font-size: 0.6rem;
+  font-family: monospace;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(79, 255, 176, 0.06), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* ── Hover lift card ─────────────────────────────────────────────────────── */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(79,255,176,0.06);
+}
+
+/* ── Sparkle keyframe ────────────────────────────────────────────────────── */
+@keyframes sparkle-appear {
+  0%   { transform: scale(0) rotate(0deg); opacity: 0; }
+  50%  { transform: scale(1.2) rotate(180deg); opacity: 1; }
+  100% { transform: scale(0) rotate(360deg); opacity: 0; }
+}
+.sparkle {
+  animation: sparkle-appear 2s ease-in-out infinite;
+}
+
+/* ── Experience timeline pulse ───────────────────────────────────────────── */
+@keyframes timeline-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 255, 176, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(79, 255, 176, 0); }
+}
+.timeline-dot-pulse {
+  animation: timeline-pulse 2s ease-in-out infinite;
+}
+
+/* ── Gradient mesh background ───────────────────────────────────────────── */
+@keyframes mesh-shift {
+  0%   { background-position: 0% 0%, 100% 100%; }
+  50%  { background-position: 100% 0%, 0% 100%; }
+  100% { background-position: 0% 0%, 100% 100%; }
+}
+.gradient-mesh-bg {
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(79, 255, 176, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(168, 85, 247, 0.06) 0%, transparent 50%);
+  animation: mesh-shift 15s ease infinite;
+}
+
