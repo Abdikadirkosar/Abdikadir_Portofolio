@@ -346,7 +346,7 @@ const NavBar = () => {
                 <span className="text-white/20 font-mono text-[10px] tracking-[0.3em] uppercase">Navigation</span>
               </motion.div>
 
-              {Links.filter((l) => l.id !== "contact").map((link) => (
+              {navKeys.filter((l) => l.id !== "contact").map((link) => (
                 <motion.button
                   key={link.id}
                   variants={item}
@@ -362,7 +362,7 @@ const NavBar = () => {
                     }`}
                     style={active === link.id ? { textShadow: "0 0 20px rgba(79,255,176,0.5)" } : {}}
                   >
-                    {link.label}
+                    {t.nav[link.key] || link.target}
                   </span>
                   <span
                     className={`absolute -bottom-1 left-0 h-px transition-all duration-400

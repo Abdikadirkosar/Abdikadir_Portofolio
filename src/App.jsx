@@ -133,6 +133,12 @@ function AppContent() {
     loadSettings();
   }, []);
 
+  useEffect(() => {
+    if (!showIntro) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [showIntro]);
+
   return (
     <main>
       <AnimatePresence mode="wait">
