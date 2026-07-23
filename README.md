@@ -1,78 +1,97 @@
-# 🚀 Abdikadir Kosar Osman — AI Engineer & Full Stack Portfolio
+# 🚀 Abdikadir Kosar — AI Engineer & Full-Stack Architect Portfolio
 
-An ultra-modern, high-performance developer portfolio built with React 19, Vite, Tailwind CSS, Supabase, Framer Motion, GSAP, and Three.js canvas backgrounds.
+<div align="center">
 
-![Portfolio Banner](/public/projects-images/Screenshot%202026-05-16%20022624.png)
+![Abdikadir Kosar Portfolio Hero Banner](./public/readme_hero.png)
 
----
+[![Live Portfolio](https://img.shields.io/badge/Live_Portfolio-4FFFB0?style=for-the-badge&logo=vercel&logoColor=000)](https://abdikadirkosar.dev)
+[![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
+[![Python](https://img.shields.io/badge/Python_3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 
-## ✨ Features
+**Building Next-Generation Intelligent Applications, Generative AI Pipelines, and High-Performance Cloud Architectures.**
 
-- **🎨 Modern Glassmorphic Aesthetic**: Cyberpunk dark mode with dynamic accent customization.
-- **⚡ Interactive 3D & Canvas**: Three.js Aurora background, Neural background, and GSAP scroll reveals.
-- **📦 Project Lightbox Modal**: Interactive detail view for selected portfolio projects.
-- **🛡️ Admin Dashboard**: Full CMS to manage projects, blogs, services, education, experience, certificates, testimonials, and view real-time analytics.
-- **🎵 Sound Feedback System**: Optional spatial ambient UI audio cues.
-- **🚀 Vercel Ready**: Preconfigured with `vercel.json` SPA rewrite rules.
+[🌐 Visit Live Portfolio](https://abdikadirkosar.dev) • [📄 Download Resume (PDF)](./public/Abdikadir_Kosar_Osman_CV.pdf) • [📩 Contact Abdikadir](mailto:abdikadirkosara@gmail.com)
 
----
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React 19, React Router v7, Tailwind CSS v4, Framer Motion, GSAP, Three.js / Drei
-- **Backend & Database**: Supabase (PostgreSQL, Storage, Realtime Auth)
-- **Deployment**: Vercel & GitHub
+</div>
 
 ---
 
-## ⚡ Setup & Local Development
+## 🌟 Key Features & Innovations
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/abdikadirkosar/Abdikadir_Portofolio-.git
-   cd Abdikadir_Portofolio-
-   ```
+- **🤖 Interactive Floating AI Assistant ("Ask Abdikadir's AI")**:
+  - Embedded floating conversational bot with custom knowledge engine answering visitor inquiries in both Somali 🇸🇴 and English 🇬🇧 with quick prompt pills!
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+- **💻 Interactive Web Shell Terminal v2.4**:
+  - High-tech CLI embedded directly into the portfolio layout supporting commands `help`, `whoami`, `skills`, `projects`, `contact`, `hire`, `theme`, and `clear`.
 
-3. **Configure Environment Variables**:
-   Create a `.env` file in the project root:
-   ```env
-   VITE_SUPABASE_URL=https://your-project.supabase.co
-   VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
-   ```
+- **🌐 Synchronized Multi-Language Suite (Somali 🇸🇴 & English 🇬🇧)**:
+  - 1-click seamless translation toggle updating all sections, modals, titles, and chatbot prompts in real-time.
 
-4. **Run Development Server**:
-   ```bash
-   npm run dev
-   ```
+- **⌨️ Command Palette Spotlight Search (`Ctrl + K`)**:
+  - Spotlight search overlay allowing instant navigation to any section or setting.
 
----
+- **🚀 Interactive AI Live Playground**:
+  - Live console demo for testing simulated AI model pipelines (GPT-4o RAG, Claude 3.5 Agents, YOLOv8 Computer Vision).
 
-## 🗄️ Supabase Storage & RLS Setup
+- **🧮 Project Scope & Cost Estimator Calculator**:
+  - Client quote calculator modal estimating project timeline (weeks) and budget ($) based on selected services and add-ons.
 
-If you encounter `Upload failed: new row violates row-level security policy` when uploading images in the Admin dashboard:
+- **🎨 Custom Accent Color Switcher**:
+  - Live accent palette switcher (Emerald Mint 💚, Electric Cyan 💙, Cyber Purple 💜, Sunset Amber 💛, Crimson Rose ❤️).
 
-1. Open your **Supabase Dashboard** -> **SQL Editor**.
-2. Run the script provided in [`supabase_fix_and_sync.sql`](./supabase_fix_and_sync.sql).
-3. This creates the `portfolio-media` storage bucket and applies public upload and read permissions.
+- **🌙☀️ Frost Pearl & Obsidian Dual Theme Engine**:
+  - Default **Dark Obsidian Mode** (`#0a0a0f`) with glowing emerald accents and **Nordic Frost Pearl Light Mode** (`#F1F5F9`) with solid dark slate typography (`#0F172A`).
 
 ---
 
-## 🌐 Deploying to Vercel
+## 💻 Featured Innovations & Applications
 
-1. Push your changes to **GitHub**:
-   ```bash
-   git add .
-   git commit -m "Deploying portfolio to Vercel"
-   git push origin main
-   ```
-2. Import your GitHub repository in **Vercel**.
-3. Under **Environment Variables**, add:
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
-4. Click **Deploy**!
+<div align="center">
 
+### 🚗 UNIQUE — Premium Car Rental & Fleet Management System
+
+![UNIQUE Premium Car Rental Project](./public/readme_project.png)
+
+*A luxury car rental & fleet reservation platform featuring interactive vehicle search, instant booking, dynamic price calculators, and sleek dark/light user interfaces.*
+
+</div>
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+| Category | Technologies & Tools |
+| :--- | :--- |
+| **AI & Machine Learning** | PyTorch, TensorFlow, RAG Architecture, Peft, Peft/LoRA, LangChain, OpenCV, YOLOv8 |
+| **Frontend & UI** | React 19, Next.js, Tailwind CSS v4, Framer Motion, GSAP, Lucide Icons |
+| **Backend & APIs** | Python, Node.js, Express, FastAPI, Django, REST & GraphQL APIs |
+| **Database & Storage** | PostgreSQL, Supabase RLS, MongoDB, Redis, pgvector |
+| **DevOps & Cloud** | AWS, GCP, Docker, GitHub Actions CI/CD, Vercel Edge Deployments |
+
+---
+
+## 🚀 Quick Start & Local Setup
+
+```bash
+# 1. Clone repository
+git clone https://github.com/Abdikadirkosar/Abdikadir_Portofolio.git
+
+# 2. Navigate to directory
+cd Abdikadir_Portofolio
+
+# 3. Install dependencies
+npm install
+
+# 4. Start local development server
+npm run dev
+```
+
+---
+
+<div align="center">
+
+Designed & Engineered with ❤️ by **Abdikadir Kosar Osman**
+
+</div>
