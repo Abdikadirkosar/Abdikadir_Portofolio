@@ -79,9 +79,8 @@ const techColors = {
 const filters = ["All", "AI", "Full Stack"];
 
 // ── 3D Tilt Card ──────────────────────────────────────────────────────────────
-// ── Progressive Image Loader for Slow Motion Fade-In ────────────────────────
+// ── Fast Instant Image Loader (Zero Slow Motion) ─────────────────────────────
 const ProgressiveImage = ({ src, alt, className, style, minHeight }) => {
-  const [loaded, setLoaded] = useState(false);
   const [imgSrc, setImgSrc] = useState(src || "/projects-images/Screenshot 2026-05-16 022624.png");
 
   useEffect(() => {
@@ -90,21 +89,13 @@ const ProgressiveImage = ({ src, alt, className, style, minHeight }) => {
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-neutral-900/40" style={{ minHeight }}>
-      {/* Premium Shimmer skeleton */}
-      {!loaded && (
-        <div className="absolute inset-0 bg-gradient-to-r from-neutral-900/60 via-neutral-800/60 to-neutral-900/60 animate-shimmer" 
-             style={{ backgroundSize: "200% 100%" }} />
-      )}
-      <motion.img
+      <img
         src={imgSrc}
         alt={alt}
         className={className}
         style={style}
+        loading="eager"
         onError={() => setImgSrc("/projects-images/dramatic-storm-clouds-vast-barren-field.jpg")}
-        initial={{ opacity: 0, filter: "blur(8px) scale(1.02)" }}
-        animate={loaded ? { opacity: 1, filter: "blur(0px) scale(1)" } : {}}
-        transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
-        onLoad={() => setLoaded(true)}
       />
     </div>
   );
