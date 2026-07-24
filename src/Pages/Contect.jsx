@@ -114,6 +114,13 @@ const Contact = () => {
     const email = formData.get("from_email");
     const subject = formData.get("subject");
     const message = formData.get("message");
+    // 1. Always save to Supabase Database
+    safeQuery(sb => sb.from("messages").insert([{ name, email, subject, message }])).catch(() => {});
+
+    // 2. Always send instant Telegram Bot notification
+    sendTelegramNotification({ name, email, subject, message }).catch(() => {});
+
+    // 3. Send EmailJS (optional email forwarding)
     try {
       await emailjs.sendForm(
         import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_mt5m909",
@@ -121,17 +128,15 @@ const Contact = () => {
         formRef.current,
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "jMGByHwDBu18FSXCt",
       );
-      safeQuery(sb => sb.from("messages").insert([{ name, email, subject, message }]));
-      sendTelegramNotification({ name, email, subject, message }).catch(() => {});
-      setLoading(false);
-      setSent(true);
-      toast.success("Message sent successfully 🎉");
-      formRef.current.reset();
-      setTimeout(() => setSent(false), 4000);
     } catch (err) {
-      setLoading(false);
-      toast.error("Something went wrong");
+      // EmailJS error won't block Supabase or Telegram notification!
     }
+
+    setLoading(false);
+    setSent(true);
+    toast.success("Message sent successfully 🎉");
+    formRef.current.reset();
+    setTimeout(() => setSent(false), 4000);
   };
 
   /* ── Theme tokens ──────────────────────────────────────────── */
