@@ -7,6 +7,8 @@ import { useLanguage } from "../context/LanguageContext";
 import CommandPalette from "./CommandPalette";
 import AccentColorPicker from "./AccentColorPicker";
 import ProjectCostEstimator from "./ProjectCostEstimator";
+import VCardModal from "./VCardModal";
+import BookCallModal from "./BookCallModal";
 import { Sun, Moon, Languages } from "lucide-react";
 
 const navKeys = [
@@ -265,6 +267,8 @@ const NavBar = () => {
               <CommandPalette />
               <AccentColorPicker />
               <ProjectCostEstimator />
+              <VCardModal />
+              <BookCallModal />
 
               <button
                 onClick={toggleLanguage}

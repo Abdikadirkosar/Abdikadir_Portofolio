@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import { safeQuery } from "../lib/supabase";
 import ThreeDTilt from "../Components/ThreeDTilt";
 import { useLanguage } from "../context/LanguageContext";
+import GithubStatsWidget from "../Components/GithubStatsWidget";
 
 // ── Animation variants ────────────────────────────────────────────────────────
 const container = {
