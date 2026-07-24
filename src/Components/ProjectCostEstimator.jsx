@@ -110,14 +110,14 @@ export default function ProjectCostEstimator() {
                       onClick={() => setSelectedService(srv)}
                       className={`p-3 rounded-xl border text-left flex items-center gap-3 transition-all cursor-pointer ${
                         selectedService.id === srv.id
-                          ? "bg-[#4FFFB0]/15 border-[#4FFFB0]/50 text-white"
-                          : "bg-white/5 border-white/10 text-white/60 hover:border-white/20"
+                          ? "bg-[#059669] border-[#10B981] text-white font-bold shadow-[0_0_15px_rgba(5,150,105,0.4)]"
+                          : "bg-white/5 border-white/10 text-white/70 hover:border-white/20"
                       }`}
                     >
                       <span className="text-lg">{srv.icon}</span>
                       <div>
-                        <div className="text-xs font-semibold">{srv.name}</div>
-                        <div className="text-[10px] text-white/40 font-mono">From ${srv.basePrice}</div>
+                        <div className="text-xs font-semibold text-white">{srv.name}</div>
+                        <div className="text-[10px] text-white/70 font-mono">From ${srv.basePrice}</div>
                       </div>
                     </button>
                   ))}
@@ -138,12 +138,12 @@ export default function ProjectCostEstimator() {
                         onClick={() => toggleAddon(addon.id)}
                         className={`p-3 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${
                           active
-                            ? "bg-[#4FFFB0]/15 border-[#4FFFB0]/50 text-white"
-                            : "bg-white/5 border-white/10 text-white/60 hover:border-white/20"
+                            ? "bg-[#059669] border-[#10B981] text-white font-bold shadow-[0_0_15px_rgba(5,150,105,0.4)]"
+                            : "bg-white/5 border-white/10 text-white/70 hover:border-white/20"
                         }`}
                       >
-                        <span className="text-xs">{addon.name}</span>
-                        <span className="text-[10px] font-mono text-[#4FFFB0]">+$ {addon.price}</span>
+                        <span className="text-xs text-white font-medium">{addon.name}</span>
+                        <span className={`text-[10px] font-mono ${active ? "text-emerald-100 font-bold" : "text-[#4FFFB0]"}`}>+$ {addon.price}</span>
                       </button>
                     );
                   })}
@@ -154,21 +154,21 @@ export default function ProjectCostEstimator() {
               <div className="p-4 rounded-xl bg-black/60 border border-white/10 flex flex-wrap items-center justify-between gap-4">
                 <div className="flex gap-6">
                   <div>
-                    <span className="text-[10px] font-mono text-white/40 block">ESTIMATED PRICE</span>
+                    <span className="text-[10px] font-mono text-white/50 block">ESTIMATED PRICE</span>
                     <span className="text-xl font-bold font-mono text-[#4FFFB0]">${price} USD</span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono text-white/40 block">ESTIMATED DURATION</span>
+                    <span className="text-[10px] font-mono text-white/50 block">ESTIMATED DURATION</span>
                     <span className="text-xl font-bold font-mono text-white">~{duration} Weeks</span>
                   </div>
                 </div>
 
                 <button
                   onClick={handleContactWithQuote}
-                  className="px-5 py-2.5 rounded-xl bg-[#4FFFB0] text-slate-950 font-bold text-xs font-mono flex items-center gap-2 hover:bg-emerald-400 transition-all cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-[#059669] hover:bg-[#047857] text-white font-bold text-xs font-mono flex items-center gap-2 transition-all cursor-pointer shadow-[0_0_20px_rgba(5,150,105,0.4)]"
                 >
-                  <span>{lang === "SO" ? "Soo Dir Qiyaastan" : "Submit Scope to Abdikadir"}</span>
-                  <ArrowRight size={15} />
+                  <span className="text-white font-bold">{lang === "SO" ? "Soo Dir Qiyaastan" : "Submit Scope to Abdikadir"}</span>
+                  <ArrowRight size={15} className="text-white" />
                 </button>
               </div>
             </motion.div>
