@@ -101,29 +101,85 @@ const ProgressiveImage = ({ src, alt, className, style, minHeight }) => {
   );
 };
 
+// ── Project Image Carousel ────────────────────────────────────────────────────
+const ImageCarousel = ({ images }) => {
+  const [idx, setIdx] = useState(0);
+  const imgs = images?.length ? images : [null];
+  const prev = () => setIdx((i) => (i - 1 + imgs.length) % imgs.length);
+  const next = () => setIdx((i) => (i + 1) % imgs.length);
+
+  return (
+    <div className="relative h-64 w-full overflow-hidden bg-[#060609] group">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={idx}
+          src={imgs[idx] || "/projects-images/Screenshot 2026-05-16 022624.png"}
+          alt=""
+          className="w-full h-full object-cover"
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -30 }}
+          transition={{ duration: 0.25 }}
+          onError={(e) => { e.currentTarget.src = "/projects-images/dramatic-storm-clouds-vast-barren-field.jpg"; }}
+        />
+      </AnimatePresence>
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d12] via-[#0d0d12]/40 to-transparent" />
+      {imgs.length > 1 && (
+        <>
+          <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white text-sm flex items-center justify-center hover:bg-[#4FFFB0] hover:text-black transition-all opacity-0 group-hover:opacity-100">‹</button>
+          <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 border border-white/20 text-white text-sm flex items-center justify-center hover:bg-[#4FFFB0] hover:text-black transition-all opacity-0 group-hover:opacity-100">›</button>
+          <div className="absolute bottom-14 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {imgs.map((_, i) => (
+              <button key={i} onClick={() => setIdx(i)} className={`w-1.5 h-1.5 rounded-full transition-all ${i === idx ? "bg-[#4FFFB0] w-4" : "bg-white/30"}`} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+
+
 // ── Project Detail Modal Component ───────────────────────────────────────────
 const ProjectDetailModal = ({ project, onClose }) => {
   if (!project) return null;
 
+  // Build the screenshots array: screenshots field + main bgImage
+  const screenshots = (() => {
+    let imgs = [];
+    if (project.screenshots) {
+      // Can be comma-separated string or array
+      const arr = Array.isArray(project.screenshots)
+        ? project.screenshots
+        : project.screenshots.split(",").map(s => s.trim()).filter(Boolean);
+      imgs = arr;
+    }
+    if (project.bgImage || project.image_url) {
+      const main = project.bgImage || project.image_url;
+      if (!imgs.includes(main)) imgs.unshift(main);
+    }
+    return imgs.filter(Boolean);
+  })();
+
+  const techList = Array.isArray(project.tech)
+    ? project.tech
+    : (project.tech || "").split(",").map(t => t.trim()).filter(Boolean);
+
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md" onClick={onClose}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="relative w-full max-w-2xl bg-[#0d0d12] border border-[#4FFFB0]/30 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(79,255,176,0.15)] text-white"
+          onClick={(e) => e.stopPropagation()}
         >
-          {/* Header Image */}
-          <div className="relative h-64 w-full overflow-hidden">
-            <img
-              src={project.bgImage || "/projects-images/Screenshot 2026-05-16 022624.png"}
-              alt={project.name}
-              className="w-full h-full object-cover"
-              onError={(e) => { e.currentTarget.src = "/projects-images/dramatic-storm-clouds-vast-barren-field.jpg"; }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d12] via-[#0d0d12]/60 to-transparent" />
+          {/* Image Carousel */}
+          <div className="relative">
+            <ImageCarousel images={screenshots} />
             <button
               onClick={onClose}
               className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/70 border border-white/20 text-white flex items-center justify-center hover:bg-[#4FFFB0] hover:text-black transition-all duration-300 z-20"
@@ -145,11 +201,8 @@ const ProjectDetailModal = ({ project, onClose }) => {
             <div>
               <h4 className="text-xs font-mono uppercase tracking-widest text-[#4FFFB0] mb-2">Technologies Used</h4>
               <div className="flex flex-wrap gap-2">
-                {project.tech.map((t, i) => (
-                  <span
-                    key={i}
-                    className="text-xs font-mono px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-200"
-                  >
+                {techList.map((t, i) => (
+                  <span key={i} className="text-xs font-mono px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-200">
                     {t}
                   </span>
                 ))}
@@ -157,14 +210,16 @@ const ProjectDetailModal = ({ project, onClose }) => {
             </div>
 
             <div className="flex flex-wrap gap-4 pt-4 border-t border-white/10">
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4FFFB0] text-black font-semibold text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-[0_0_20px_rgba(79,255,176,0.3)]"
-              >
-                <FaGithub size={14} /> View GitHub Repo
-              </a>
+              {(project.link || project.github_link) && (
+                <a
+                  href={project.link || project.github_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4FFFB0] text-black font-semibold text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-[0_0_20px_rgba(79,255,176,0.3)]"
+                >
+                  <FaGithub size={14} /> View GitHub Repo
+                </a>
+              )}
               {project.live_link && (
                 <a
                   href={project.live_link}
@@ -182,6 +237,8 @@ const ProjectDetailModal = ({ project, onClose }) => {
     </AnimatePresence>
   );
 };
+
+
 
 // ── 3D Tilt Card ──────────────────────────────────────────────────────────────
 const ProjectCard = ({ project, index, large = false, likesCount = 0, onLike, onSelect }) => {

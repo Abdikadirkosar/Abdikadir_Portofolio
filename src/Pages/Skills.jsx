@@ -170,14 +170,16 @@ const SkillCard = ({ skill, index }) => {
           <p className="relative z-10 text-white/35 text-[11px] leading-normal mt-1 max-w-[130px]">{skill.desc}</p>
         </div>
 
-        {/* Mini Level Indicator */}
+        {/* Animated Progress Bar — fills when scrolled into view */}
         <div className="w-full mt-3 h-1 bg-white/5 rounded-full overflow-hidden relative">
-          <div 
-            className="h-full rounded-full transition-all duration-1000"
-            style={{ 
-              width: `${skill.percentage || 80}%`, 
+          <motion.div
+            className="h-full rounded-full"
+            initial={{ width: 0 }}
+            animate={inView ? { width: `${skill.percentage || 80}%` } : { width: 0 }}
+            transition={{ duration: 1.2, delay: 0.2 + (index % 5) * 0.07, ease: [0.22, 1, 0.36, 1] }}
+            style={{
               backgroundColor: skill.iconColor,
-              boxShadow: `0 0 8px ${skill.iconColor}`
+              boxShadow: `0 0 8px ${skill.iconColor}`,
             }}
           />
         </div>

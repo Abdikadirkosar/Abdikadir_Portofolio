@@ -1,14 +1,43 @@
 import React from "react";
 import { Download, FileText } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
+import { sendTelegramCVAlert } from "../lib/telegram";
+
+function getDeviceType() {
+  const ua = navigator.userAgent;
+  if (/tablet|ipad|playbook|silk/i.test(ua)) return "Tablet 📱";
+  if (/mobile|android|iphone|ipod|blackberry|windows phone/i.test(ua)) return "Mobile 📱";
+  return "Desktop 💻";
+}
+function getBrowserName() {
+  const ua = navigator.userAgent;
+  if (ua.includes("Edg/"))    return "Edge";
+  if (ua.includes("OPR/"))    return "Opera";
+  if (ua.includes("Firefox/")) return "Firefox";
+  if (ua.includes("Chrome/"))  return "Chrome";
+  if (ua.includes("Safari/"))  return "Safari";
+  return "Browser";
+}
 
 export default function ResumeDownloadButton({ className = "" }) {
   const { t } = useLanguage();
 
   const handleDownload = () => {
-    // Generate styled plain text / print resume PDF fallback dynamically
+    // ── Telegram CV tracker ─────────────────────────────────────────────────
+    fetch("https://ipwho.is/")
+      .then(r => r.json())
+      .then(geo => {
+        const flag = geo?.flag?.emoji || "🌍";
+        const country = `${flag} ${geo?.country || "Unknown"}`;
+        sendTelegramCVAlert({ country, device: getDeviceType(), browser: getBrowserName() }).catch(() => {});
+      })
+      .catch(() => {
+        sendTelegramCVAlert({ country: "🌍 Unknown", device: getDeviceType(), browser: getBrowserName() }).catch(() => {});
+      });
+
+    // ── Generate resume text ────────────────────────────────────────────────
     const resumeText = `===========================================================
-ABDIKADIR - AI ENGINEER & FULL-STACK ARCHITECT
+ABDIKADIR — AI ENGINEER & FULL-STACK ARCHITECT
 Email: abdikadirkosara@gmail.com
 Portfolio: https://abdikadir-portfolio.vercel.app
 ===========================================================
@@ -31,7 +60,7 @@ KEY HIGHLIGHTS:
 - Architected cloud-native database solutions with Supabase RLS and real-time triggers.
 
 ===========================================================
-Generated via Abdikadir Portfolio Platform
+Generated via Abdikadir Portfolio Platform — ${new Date().toLocaleDateString()}
 ===========================================================`;
 
     const blob = new Blob([resumeText], { type: "text/plain;charset=utf-8" });

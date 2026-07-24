@@ -128,6 +128,13 @@ const Contact = () => {
         formRef.current,
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "jMGByHwDBu18FSXCt",
       );
+      // 4. Auto-reply to sender
+      emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_mt5m909",
+        import.meta.env.VITE_EMAILJS_AUTOREPLY_TEMPLATE || "template_autoreply",
+        { to_name: name, to_email: email, subject: subject || "Your message received" },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "jMGByHwDBu18FSXCt",
+      ).catch(() => {}); // silent — don't block main flow
     } catch (err) {
       // EmailJS error won't block Supabase or Telegram notification!
     }
@@ -138,6 +145,7 @@ const Contact = () => {
     formRef.current.reset();
     setTimeout(() => setSent(false), 4000);
   };
+
 
   /* ── Theme tokens ──────────────────────────────────────────── */
   const bg        = dark ? "#060609"        : "#f8fafc";

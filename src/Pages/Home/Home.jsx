@@ -8,6 +8,8 @@ import MagneticButton from "../../Components/MagneticButton";
 import { safeQuery } from "../../lib/supabase";
 import MiniTerminal from "../../Components/MiniTerminal";
 import ResumeDownloadButton from "../../Components/ResumeDownloadButton";
+import { useLiveVisitors } from "../../hooks/useLiveVisitors";
+import { Users } from "lucide-react";
 
 const wordsList = ["products", "strategies", "apps", "pipelines"];
 
@@ -125,6 +127,7 @@ const StatItem = ({ value, label, color, index }) => (
 // ── Main Home component ───────────────────────────────────────────────────────
 const Home = () => {
   const [prof, setProf] = useState(null);
+  const liveCount = useLiveVisitors();
 
   useEffect(() => {
     const fetchProf = async () => {
@@ -258,9 +261,21 @@ const Home = () => {
             <StatItem key={stat.label} {...stat} index={i} />
           ))}
           <div className="h-8 w-px bg-white/10" />
-          <span className="text-[10px] font-mono text-white/25 uppercase tracking-widest">
-            Ready to ship
-          </span>
+          {/* Live Visitors Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.1 }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-mono"
+            style={{ background: "rgba(79,255,176,0.06)", borderColor: "rgba(79,255,176,0.2)", color: "#4FFFB0" }}
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4FFFB0] opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#4FFFB0]" />
+            </span>
+            <Users size={10} />
+            <span>{liveCount} viewing now</span>
+          </motion.div>
         </motion.div>
 
         {/* Floating tech pills */}

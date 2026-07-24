@@ -45,6 +45,25 @@ ${escapeMarkdown(message)}
   }
 }
 
+export async function sendTelegramCVAlert({ country = "Unknown", device = "Desktop", browser = "Chrome" } = {}) {
+  if (!botToken || !chatId) return { success: false };
+  const text = `📥 *CV Downloaded!*
+
+🌍 *Country:* ${escapeMarkdown(country)}
+💻 *Device:* ${escapeMarkdown(device)}
+🌐 *Browser:* ${escapeMarkdown(browser)}
+⏰ *Time:* ${new Date().toLocaleString()}`;
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown", disable_web_page_preview: true }),
+    });
+    const json = await res.json();
+    return { success: json.ok };
+  } catch { return { success: false }; }
+}
+
 export async function sendTelegramVisitorAlert({ country, device, browser, page = "Home", referrer = "Direct" }) {
   if (!botToken || !chatId) {
     return { success: false, reason: "Telegram credentials missing" };
