@@ -5,6 +5,7 @@ import emailjs from "@emailjs/browser";
 import { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { safeQuery } from "../lib/supabase";
+import { sendTelegramNotification } from "../lib/telegram";
 import { Send, Zap, Terminal, Sparkles, ArrowRight } from "lucide-react";
 
 /* ─── Floating particle ─────────────────────────────────────── */
@@ -121,6 +122,7 @@ const Contact = () => {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "jMGByHwDBu18FSXCt",
       );
       safeQuery(sb => sb.from("messages").insert([{ name, email, subject, message }]));
+      sendTelegramNotification({ name, email, subject, message }).catch(() => {});
       setLoading(false);
       setSent(true);
       toast.success("Message sent successfully 🎉");
