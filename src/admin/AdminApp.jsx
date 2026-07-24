@@ -1,13 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { supabase } from "../lib/supabase";
+import { supabase, safeQuery } from "../lib/supabase";
 import { toast } from "react-toastify";
 import {
   LayoutDashboard, FolderKanban, BookOpen, Briefcase,
   GraduationCap, Award, MessageSquareQuote, Mail,
-  Settings, LogOut, Menu, X, ExternalLink, ChevronRight
+  Settings, LogOut, Menu, X, ExternalLink, ChevronRight, Bell
 } from "lucide-react";
+
+// Web Audio API chime sound generator for new incoming admin message
+function playNotificationChime() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === "suspended") ctx.resume();
+
+    const now = ctx.currentTime;
+    
+    // Two-tone pleasant notification chime (E5 -> B5)
+    [659.25, 987.77].forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+
+      gain.gain.setValueAtTime(0, now + idx * 0.12);
+      gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.12 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.12 + 0.4);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now + idx * 0.12);
+      osc.stop(now + idx * 0.12 + 0.45);
+    });
+  } catch (err) {
+    // Silent catch
+  }
+}
 
 const NAV_ITEMS = [
   { to: "/admin/dashboard",    icon: LayoutDashboard,      label: "Dashboard" },
@@ -17,13 +47,41 @@ const NAV_ITEMS = [
   { to: "/admin/education",    icon: GraduationCap,        label: "Education" },
   { to: "/admin/certificates", icon: Award,                label: "Certificates" },
   { to: "/admin/testimonials", icon: MessageSquareQuote,   label: "Testimonials" },
-  { to: "/admin/messages",     icon: Mail,                 label: "Messages" },
+  { to: "/admin/messages",     icon: Mail,                 label: "Messages", badge: true },
   { to: "/admin/settings",     icon: Settings,             label: "Settings" },
 ];
 
 const AdminApp = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const prevUnreadRef = useRef(0);
   const navigate = useNavigate();
+
+  // Poll for unread messages count every 10 seconds & play chime on new message
+  useEffect(() => {
+    const fetchUnread = async () => {
+      const { data } = await safeQuery((sb) =>
+        sb.from("messages").select("id").eq("is_read", false)
+      );
+      const count = data ? data.length : 0;
+
+      // If new unread message came in while active, play notification sound & toast
+      if (count > prevUnreadRef.current && prevUnreadRef.current !== 0) {
+        playNotificationChime();
+        toast.info(`🔔 New message received! (${count} unread)`, {
+          position: "top-right",
+          autoClose: 4000,
+        });
+      }
+
+      prevUnreadRef.current = count;
+      setUnreadCount(count);
+    };
+
+    fetchUnread();
+    const interval = setInterval(fetchUnread, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLogout = async () => {
     await supabase?.auth.signOut();
@@ -48,7 +106,7 @@ const AdminApp = () => {
 
       {/* Nav items */}
       <nav className="flex flex-col gap-1 flex-1">
-        {NAV_ITEMS.map(({ to, icon: Icon, label }) => (
+        {NAV_ITEMS.map(({ to, icon: Icon, label, badge }) => (
           <NavLink
             key={to}
             to={to}
@@ -68,11 +126,16 @@ const AdminApp = () => {
                 )}
                 <Icon size={16} className="flex-shrink-0" />
                 {(sidebarOpen || mobile) && (
-                  <span className="text-sm font-medium">{label}</span>
+                  <span className="text-sm font-medium flex-1">{label}</span>
+                )}
+                {badge && unreadCount > 0 && (
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#4FFFB0] text-black shadow-[0_0_10px_rgba(79,255,176,0.5)]">
+                    {unreadCount}
+                  </span>
                 )}
                 {!sidebarOpen && !mobile && (
                   <div className="absolute left-full ml-2 px-2 py-1 bg-[#1a1a24] border border-white/10 rounded-lg text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-50 transition-opacity">
-                    {label}
+                    {label} {badge && unreadCount > 0 ? `(${unreadCount})` : ""}
                   </div>
                 )}
               </>
@@ -157,16 +220,33 @@ const AdminApp = () => {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="h-14 flex items-center gap-4 px-5 border-b border-white/[0.05] bg-[#0a0a12]/80 backdrop-blur-sm sticky top-0 z-30">
+        <header className="h-14 flex items-center justify-between px-5 border-b border-white/[0.05] bg-[#0a0a12]/80 backdrop-blur-sm sticky top-0 z-30">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="text-white/40 hover:text-white transition-colors lg:hidden"
           >
             <Menu size={20} />
           </button>
-          <div className="flex items-center gap-2 ml-auto">
-            <div className="w-2 h-2 rounded-full bg-[#4FFFB0] animate-pulse" />
-            <span className="text-white/30 text-xs font-mono">Admin Online</span>
+
+          <div className="flex items-center gap-4 ml-auto">
+            {/* Messages Quick Badge Notification Header Icon */}
+            <NavLink
+              to="/admin/messages"
+              className="relative p-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white/60 hover:text-[#4FFFB0] hover:border-[#4FFFB0]/30 transition-all flex items-center justify-center"
+              title="View Messages"
+            >
+              <Bell size={16} />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#4FFFB0] text-black font-mono font-bold text-[9px] flex items-center justify-center shadow-[0_0_8px_rgba(79,255,176,0.8)]">
+                  {unreadCount}
+                </span>
+              )}
+            </NavLink>
+
+            <div className="flex items-center gap-2 border-l border-white/[0.08] pl-3">
+              <div className="w-2 h-2 rounded-full bg-[#4FFFB0] animate-pulse" />
+              <span className="text-white/40 text-xs font-mono">Admin Active</span>
+            </div>
           </div>
         </header>
 
