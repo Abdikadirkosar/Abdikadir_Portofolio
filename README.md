@@ -103,8 +103,8 @@ npm install
 # 4. Configure environment variables (.env)
 VITE_SUPABASE_URL=https://your-supabase-url.supabase.co
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
-VITE_TELEGRAM_BOT_TOKEN=8964811758:AAHSYIsRyqP7GXML1e_unzL8etfc3jaOxVM
-VITE_TELEGRAM_CHAT_ID=5515076086
+VITE_TELEGRAM_BOT_TOKEN=your-telegram-bot-token
+VITE_TELEGRAM_CHAT_ID=your-telegram-chat-id
 
 # 5. Start local development server
 npm run dev
