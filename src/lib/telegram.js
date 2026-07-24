@@ -1,8 +1,9 @@
 /**
  * telegram.js
  * ───────────
- * Sends instant notifications to a Telegram Chat/Group when a new message
- * or quote request is submitted on the portfolio.
+ * Sends instant notifications to a Telegram Chat/Group when:
+ *  1. A new message / quote request is submitted.
+ *  2. A new visitor enters the portfolio site (Live Visitor Alert).
  */
 
 const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
@@ -10,7 +11,6 @@ const chatId   = import.meta.env.VITE_TELEGRAM_CHAT_ID;
 
 export async function sendTelegramNotification({ name, email, subject, message, page = "Contact Form" }) {
   if (!botToken || !chatId) {
-    // If not configured in env, log silently and skip
     return { success: false, reason: "Telegram credentials missing" };
   }
 
@@ -41,6 +41,42 @@ ${escapeMarkdown(message)}
     return { success: json.ok, data: json };
   } catch (err) {
     console.error("Telegram bot error:", err);
+    return { success: false, error: err };
+  }
+}
+
+export async function sendTelegramVisitorAlert({ country, device, browser, page = "Home", referrer = "Direct" }) {
+  if (!botToken || !chatId) {
+    return { success: false, reason: "Telegram credentials missing" };
+  }
+
+  const deviceIcon = device === "mobile" ? "📱" : device === "tablet" ? "📱" : "💻";
+  
+  const text = `👁️ *New Portfolio Visitor Alert!*
+
+🌍 *Country:* ${escapeMarkdown(country || "Global")}
+${deviceIcon} *Device:* ${escapeMarkdown(device || "desktop")}
+🌐 *Browser:* ${escapeMarkdown(browser || "Chrome")}
+📄 *Page:* ${escapeMarkdown(page)}
+🔗 *Referrer:* ${escapeMarkdown(referrer || "Direct")}
+
+⏰ *Time:* ${new Date().toLocaleString()}`;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: "Markdown",
+        disable_web_page_preview: true,
+      }),
+    });
+    const json = await res.json();
+    return { success: json.ok, data: json };
+  } catch (err) {
+    // Silent catch for visitor ping
     return { success: false, error: err };
   }
 }

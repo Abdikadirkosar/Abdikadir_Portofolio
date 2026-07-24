@@ -27,6 +27,7 @@ import BackToTop from "./Components/BackToTop";
 import Marquee from "./Components/Marquee";
 import Footer from "./Components/Footer";
 import { usePageViews } from "./hooks/usePageViews";
+import { useVisitorAlert } from "./hooks/useVisitorAlert";
 import { safeQuery } from "./lib/supabase";
 import { SoundProvider, SoundToggle } from "./Components/SoundManager";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -85,6 +86,7 @@ function AppContent() {
   const [accentColor, setAccentColor] = useState("#4FFFB0");
   usePageViews("home");
   useSectionSounds();
+  useVisitorAlert(); // 🔔 Telegram live visitor ping
 
   useEffect(() => {
     const loadSettings = async () => {
