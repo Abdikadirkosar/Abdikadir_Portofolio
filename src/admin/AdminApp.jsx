@@ -99,7 +99,7 @@ const AdminApp = () => {
         {(sidebarOpen || mobile) && (
           <div>
             <p className="text-white font-bold text-sm leading-none">Admin Panel</p>
-            <p className="text-white/25 text-[9px] font-mono tracking-widest uppercase mt-0.5">v1.0</p>
+            <p className="text-[#4FFFB0] text-[9px] font-mono tracking-widest uppercase mt-0.5 font-bold">v3.0 Enterprise</p>
           </div>
         )}
       </div>
