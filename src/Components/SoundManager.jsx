@@ -89,9 +89,17 @@ const INTERACTIVE = "a, button, [role='button'], input, textarea, select";
 
 // ── Provider ─────────────────────────────────────────────────────────────────
 export function SoundProvider({ children }) {
-  const [muted, setMuted] = useState(true); // start muted — user must opt in
-  const ctxRef    = useRef(null);
-  const lastScrollY = useRef(0);
+  // Default ON — load saved preference from localStorage (fallback: ON)
+  const [muted, setMuted] = useState(() => {
+    try {
+      const saved = localStorage.getItem("sfx_muted");
+      return saved !== null ? saved === "true" : false; // default = unmuted (ON)
+    } catch {
+      return false;
+    }
+  });
+  const ctxRef         = useRef(null);
+  const lastScrollY    = useRef(0);
   const scrollCooldown = useRef(false);
 
   const getCtx = () => {
@@ -100,7 +108,12 @@ export function SoundProvider({ children }) {
     return ctxRef.current;
   };
 
-  const toggle = () => setMuted((m) => !m);
+  const toggle = () =>
+    setMuted((m) => {
+      const next = !m;
+      try { localStorage.setItem("sfx_muted", String(next)); } catch {}
+      return next;
+    });
 
   useEffect(() => {
     const interactiveSelector = INTERACTIVE;
@@ -184,9 +197,9 @@ export function SoundToggle() {
   const { muted, toggle } = useSoundCtx();
   const [showHint, setShowHint] = useState(true);
 
-  // Auto-hide hint after 4 seconds
+  // Auto-hide hint after 3 seconds
   useEffect(() => {
-    const t = setTimeout(() => setShowHint(false), 4000);
+    const t = setTimeout(() => setShowHint(false), 3000);
     return () => clearTimeout(t);
   }, []);
 
@@ -202,7 +215,7 @@ export function SoundToggle() {
             transition={{ duration: 0.25 }}
             className="bg-[#0c0c12]/95 border border-white/[0.08] text-white/60 text-[10px] font-mono tracking-wide px-3 py-1.5 rounded-lg whitespace-nowrap backdrop-blur-md pointer-events-none"
           >
-            🔇 Sound is off — click to enable
+            {muted ? "🔇 Sound off — click to enable" : "🔊 Sound is ON"}
           </motion.div>
         )}
       </AnimatePresence>
