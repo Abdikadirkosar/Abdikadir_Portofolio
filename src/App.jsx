@@ -215,9 +215,8 @@ function AppContent() {
           </div>
           <Footer />
 
-          {/* Global Hotkey Keyboard Shortcuts & Floating AI Assistant */}
+          {/* Global Hotkey Keyboard Shortcuts & Unified Chat Widget */}
           <KeyboardShortcuts />
-          <AIChatbot />
           <ChatWidget />
         </motion.div>
       )}
