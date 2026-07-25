@@ -233,7 +233,7 @@ const About = () => {
 
               <motion.img
                 variants={scaleIn}
-                src={dbProfile?.avatar || "/Photos/image.png"}
+                src={dbProfile?.about_image || dbProfile?.avatar || "/Photos/image.png"}
                 alt={dbProfile?.name || "Abdikadir Kosar"}
                 loading="lazy"
                 decoding="async"

@@ -24,13 +24,15 @@ const SectionCard = ({ icon: Icon, title, accent = "#4FFFB0", children }) => (
 );
 
 const Settings = () => {
-  const [profile, setProfile] = useState({ name: "", title: "", bio: "", avatar: "", email: "", phone: "", location: "", github: "", linkedin: "", twitter: "" });
+  const [profile, setProfile] = useState({ name: "", title: "", bio: "", avatar: "", about_image: "", email: "", phone: "", location: "", github: "", linkedin: "", twitter: "" });
   const [seo, setSeo] = useState({ meta_title: "", meta_desc: "", keywords: "" });
   const [appearance, setAppearance] = useState({ accent_color: "#4FFFB0" });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState({ profile: false, seo: false, appearance: false });
   const [uploading, setUploading] = useState(false);
+  const [uploadingAbout, setUploadingAbout] = useState(false);
 
+  // Upload Home photo (avatar)
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -38,11 +40,27 @@ const Settings = () => {
     try {
       const publicUrl = await uploadFile(file, "profile");
       setProfile(p => ({ ...p, avatar: publicUrl }));
-      toast.success("Profile photo uploaded!");
+      toast.success("Home photo uploaded! ✅");
     } catch (err) {
       toast.error("Upload failed: " + err.message);
     } finally {
       setUploading(false);
+    }
+  };
+
+  // Upload About photo (about_image)
+  const handleUploadAbout = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingAbout(true);
+    try {
+      const publicUrl = await uploadFile(file, "profile");
+      setProfile(p => ({ ...p, about_image: publicUrl }));
+      toast.success("About photo uploaded! ✅");
+    } catch (err) {
+      toast.error("Upload failed: " + err.message);
+    } finally {
+      setUploadingAbout(false);
     }
   };
 
@@ -126,15 +144,40 @@ const Settings = () => {
           <Field label="Short Bio">
             <Textarea rows={3} value={profile.bio || ""} onChange={e => sp("bio", e.target.value)} placeholder="I build intelligent systems..." />
           </Field>
-          <Field label="Avatar / Profile Photo">
+          {/* ── Home Photo ─────────────────────────────────────────────────── */}
+          <Field label="🏠 Home Photo (Hero section — right side card)">
             <div className="flex gap-3 items-center">
               <Input value={profile.avatar || ""} onChange={e => sp("avatar", e.target.value)} placeholder="https://... or upload one" className="flex-1" />
               <label className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 hover:border-[#4FFFB0]/20 bg-white/[0.02] hover:bg-[#4FFFB0]/5 text-white/50 hover:text-[#4FFFB0] text-xs font-mono transition-all cursor-pointer flex-shrink-0">
                 {uploading ? <Loader2 size={13} className="animate-spin" /> : <Upload size={13} />}
-                {uploading ? "Uploading..." : "Upload File"}
+                {uploading ? "Uploading..." : "Upload"}
                 <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
               </label>
             </div>
+            {profile.avatar && (
+              <div className="mt-2 flex items-center gap-3">
+                <img src={profile.avatar} alt="Home Preview" className="w-16 h-16 rounded-xl object-cover border border-[#4FFFB0]/30" onError={e => e.currentTarget.style.display='none'} />
+                <span className="text-white/30 text-xs font-mono">Home section preview</span>
+              </div>
+            )}
+          </Field>
+
+          {/* ── About Photo ────────────────────────────────────────────────── */}
+          <Field label="👤 About Photo (About section — profile image)">
+            <div className="flex gap-3 items-center">
+              <Input value={profile.about_image || ""} onChange={e => sp("about_image", e.target.value)} placeholder="https://... or upload one" className="flex-1" />
+              <label className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 hover:border-[#a855f7]/20 bg-white/[0.02] hover:bg-[#a855f7]/5 text-white/50 hover:text-[#a855f7] text-xs font-mono transition-all cursor-pointer flex-shrink-0">
+                {uploadingAbout ? <Loader2 size={13} className="animate-spin" /> : <Upload size={13} />}
+                {uploadingAbout ? "Uploading..." : "Upload"}
+                <input type="file" accept="image/*" onChange={handleUploadAbout} className="hidden" />
+              </label>
+            </div>
+            {profile.about_image && (
+              <div className="mt-2 flex items-center gap-3">
+                <img src={profile.about_image} alt="About Preview" className="w-16 h-16 rounded-xl object-cover border border-[#a855f7]/30" onError={e => e.currentTarget.style.display='none'} />
+                <span className="text-white/30 text-xs font-mono">About section preview</span>
+              </div>
+            )}
           </Field>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Field label="Email">
