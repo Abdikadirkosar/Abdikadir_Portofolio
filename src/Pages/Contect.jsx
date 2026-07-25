@@ -6,7 +6,7 @@ import { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { safeQuery } from "../lib/supabase";
 import { sendTelegramNotification } from "../lib/telegram";
-import { Send, Zap, Terminal, Sparkles, ArrowRight } from "lucide-react";
+import { Send, Zap, Terminal, Sparkles, ArrowRight, Copy, Check } from "lucide-react";
 
 /* ─── Floating particle ─────────────────────────────────────── */
 const Particle = ({ dark, i }) => {
@@ -93,6 +93,16 @@ const Contact = () => {
   const [focused, setFocused] = useState(null);
   const dark = true;
   const [sent, setSent] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const copyEmail = (e, email) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(email).then(() => {
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2000);
+    });
+  };
 
   useEffect(() => {
     safeQuery(sb => sb.from("db_profile").select("*").eq("id", 1).single())
@@ -319,6 +329,19 @@ const Contact = () => {
                     <p className="text-[9px] font-mono tracking-[0.2em] mb-0.5" style={{ color: `${it.accent}80` }}>{it.label}</p>
                     <p className="text-sm font-medium truncate" style={{ color: textMain }}>{it.value}</p>
                   </div>
+
+                  {/* Copy button for EMAIL card only */}
+                  {it.label === "EMAIL" && (
+                    <button
+                      onClick={(e) => copyEmail(e, it.value)}
+                      title="Copy email"
+                      className="flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-10"
+                      style={{ background: copiedEmail ? `${it.accent}20` : "transparent", border: `1px solid ${it.accent}30`, color: it.accent }}
+                    >
+                      {copiedEmail ? <Check size={12} /> : <Copy size={12} />}
+                    </button>
+                  )}
+
                   <ArrowRight size={14} className="flex-shrink-0 opacity-0 group-hover:opacity-60 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" style={{ color: it.accent }} />
 
                   {/* Bottom shimmer line */}

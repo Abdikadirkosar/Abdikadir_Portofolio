@@ -39,6 +39,9 @@ import KeyboardShortcuts from "./Components/KeyboardShortcuts";
 import { AnimatePresence, motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ParticleCursor from "./Components/ParticleCursor";
+import Achievements from "./Components/Achievements";
+import GitHubStats from "./Components/GitHubStats";
 
 // Admin
 import AdminApp from "./admin/AdminApp";
@@ -160,6 +163,7 @@ function AppContent() {
         >
           {/* ── Global chrome ────────────────────────────────────────── */}
           <CustomCursor />
+          <ParticleCursor />
           <SectionProgress />
           <ScrollProgress />
           <NeuralBackground />
@@ -193,8 +197,10 @@ function AppContent() {
           <About />
           <Services />
           <Skills />
+          <Achievements />
           <InteractiveTerminal />
           <Projects />
+          <GitHubStats />
           <AIPlayground />
           <Experience />
           <Education />

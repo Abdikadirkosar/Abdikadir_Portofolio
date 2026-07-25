@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { safeQuery } from "../../lib/supabase";
 import {
   FolderKanban, BookOpen, Mail, Eye, Heart, TrendingUp,
-  MessageSquare, Download, Globe, Monitor, Smartphone,
-  Users, Activity, Zap,
+  MessageSquare, Globe, Monitor, MapPin, ExternalLink,
+  Users, Activity, Zap, GitBranch, Link2,
 } from "lucide-react";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
@@ -70,11 +70,16 @@ const Dashboard = () => {
   const [topCountries, setTopCountries] = useState([]);
   const [deviceData, setDeviceData] = useState([]);
   const [activityFeed, setActivityFeed] = useState([]);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
       setLoading(true);
+
+      // Load profile
+      const profRes = await safeQuery(sb => sb.from("db_profile").select("*").eq("id", 1).single());
+      if (profRes.data) setProfile(profRes.data);
 
       const [projects, blogs, messages, views, likes, unread] = await Promise.all([
         safeQuery(sb => sb.from("db_projects").select("id", { count: "exact", head: true })),
@@ -164,11 +169,63 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Profile card */}
+      {profile && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="flex items-center gap-5 p-5 rounded-2xl border border-white/[0.06] bg-[#0d0d14]/80 relative overflow-hidden"
+        >
+          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, #4FFFB0 40%, transparent)" }} />
+          {/* Avatar */}
+          <div className="relative flex-shrink-0">
+            <img
+              src={profile.avatar || "/Photos/image copy 2.png"}
+              alt={profile.name}
+              className="w-16 h-16 rounded-2xl object-cover border-2 border-[#4FFFB0]/30"
+              onError={e => { e.currentTarget.src = "/Photos/image copy 2.png"; }}
+            />
+            <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#4FFFB0] border-2 border-[#0d0d14] flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#0d0d14]" />
+            </div>
+          </div>
+          {/* Info */}
+          <div className="flex-1 min-w-0">
+            <h2 className="text-white font-black text-lg">{profile.name || "Admin"}</h2>
+            <p className="text-[#4FFFB0] text-xs font-mono truncate">{profile.title || "Portfolio Admin"}</p>
+            <div className="flex items-center gap-4 mt-2 text-white/30 text-[10px] font-mono">
+              {profile.location && <span className="flex items-center gap-1"><MapPin size={9} />{profile.location}</span>}
+              {profile.email && <span className="flex items-center gap-1"><Mail size={9} />{profile.email}</span>}
+            </div>
+          </div>
+          {/* Links */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {profile.github && (
+              <a href={profile.github} target="_blank" rel="noopener noreferrer"
+                className="w-8 h-8 rounded-xl border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white/20 transition-all">
+                <GitBranch size={13} />
+              </a>
+            )}
+            {profile.linkedin && (
+              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"
+                className="w-8 h-8 rounded-xl border border-white/10 flex items-center justify-center text-white/40 hover:text-[#38bdf8] hover:border-[#38bdf8]/30 transition-all">
+                <Link2 size={13} />
+              </a>
+            )}
+            <a href="/" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#4FFFB0]/20 bg-[#4FFFB0]/5 text-[#4FFFB0] text-[10px] font-mono hover:bg-[#4FFFB0]/10 transition-all">
+              <ExternalLink size={10} /> View Site
+            </a>
+          </div>
+        </motion.div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-black text-white">Dashboard</h1>
-          <p className="text-white/30 text-sm mt-1">Portfolio analytics & real-time overview</p>
+          <p className="text-white/30 text-sm mt-1">Portfolio analytics &amp; real-time overview</p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#4FFFB0]/20 bg-[#4FFFB0]/5 text-[10px] font-mono text-[#4FFFB0]">
           <span className="relative flex h-1.5 w-1.5">
