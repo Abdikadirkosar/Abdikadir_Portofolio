@@ -42,6 +42,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ParticleCursor from "./Components/ParticleCursor";
 import Achievements from "./Components/Achievements";
 import GitHubStats from "./Components/GitHubStats";
+import ChatWidget from "./Components/ChatWidget";
 
 // Admin
 import AdminApp from "./admin/AdminApp";
@@ -217,6 +218,7 @@ function AppContent() {
           {/* Global Hotkey Keyboard Shortcuts & Floating AI Assistant */}
           <KeyboardShortcuts />
           <AIChatbot />
+          <ChatWidget />
         </motion.div>
       )}
 
