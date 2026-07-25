@@ -374,8 +374,7 @@ const Home = () => {
           <MagneticButton strength={0.25}>
             <a
               href={prof?.resume_url || "/Abdikadir_Kosar_Osman_CV.pdf"}
-              target="_blank"
-              rel="noopener noreferrer"
+              download="Abdikadir_Kosar_CV.pdf"
               className="btn-premium flex gap-2 items-center font-bold text-[14px] bg-white/5 hover:bg-white/10 text-white border border-white/15 hover:border-[#4FFFB0]/40 px-7 py-3.5 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.04)] hover:shadow-[0_0_30px_rgba(79,255,176,0.15)] transition-all duration-200 cursor-pointer backdrop-blur-sm"
             >
               Download CV
