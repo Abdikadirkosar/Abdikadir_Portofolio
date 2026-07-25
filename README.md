@@ -34,7 +34,7 @@
   - Lightweight, file-less Web Audio API sound engine providing interactive hover pings, percussive click pops, scroll whooshes, and harmonic section chords (enabled by default with localStorage preference saving).
 
 - **🤖 Interactive Floating AI Assistant ("Ask Abdikadir's AI")**:
-  - Embedded floating conversational bot with custom knowledge engine answering visitor inquiries in both Somali 🇸🇴 and English 🇬🇧 with quick prompt pills!
+  - Embedded floating conversational bot with custom knowledge engine answering visitor inquiries in both Somali  and English 🇬🇧 with quick prompt pills!
 
 - **💻 Interactive Web Shell Terminal v2.4**:
   - High-tech CLI embedded directly into the portfolio layout supporting commands `help`, `whoami`, `skills`, `projects`, `contact`, `hire`, `theme`, and `clear`.
