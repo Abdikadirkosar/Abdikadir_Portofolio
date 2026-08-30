@@ -13,7 +13,7 @@
 
 **Building Next-Generation Intelligent Applications, Generative AI Pipelines, and High-Performance Cloud Architectures.**
 
-[🌐 Visit Live Portfolio](https://abdikadirkosar.dev) • [📄 Download Resume (PDF)](./public/Abdikadir_Kosar_Osman_CV.pdf) • [📲 Telegram Bot](https://t.me/abdikadir_portfolio_bot) • [📩 Contact Abdikadir](mailto:abdikadirkosara@gmail.com)
+[🌐 Visit Live Portfolio](https://abdikadirkosarr.dev) • [📄 Download Resume (PDF)](./public/Abdikadir_Kosar_Osman_CV.pdf) • [📲 Telegram Bot](https://t.me/abdikadir_portfolio_bot) • [📩 Contact Abdikadir](mailto:abdikadirkosara@gmail.com)
 
 </div>
 
