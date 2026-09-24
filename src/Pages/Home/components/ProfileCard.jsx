@@ -206,6 +206,8 @@ export function ProfileCard({ prof }) {
             style={{ transform: "scale(1.04)", willChange: "transform" }}
             alt={prof?.name || "Abdikadir Kosar"}
             loading="eager"
+            fetchPriority="high"
+            decoding="async"
             onError={(e) => { e.currentTarget.src = "/Photos/image copy 2.png"; }}
           />
         </div>

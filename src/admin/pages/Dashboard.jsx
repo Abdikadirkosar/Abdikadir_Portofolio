@@ -74,89 +74,112 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
+    // Safety timeout: Never stay stuck on spinner more than 3 seconds
+    const safetyTimer = setTimeout(() => {
+      if (isMounted) setLoading(false);
+    }, 3000);
+
     const load = async () => {
-      setLoading(true);
+      try {
+        setLoading(true);
 
-      // Load profile
-      const profRes = await safeQuery(sb => sb.from("db_profile").select("*").eq("id", 1).single());
-      if (profRes.data) setProfile(profRes.data);
+        // Load profile
+        const profRes = await safeQuery(sb => sb.from("db_profile").select("*").eq("id", 1).single());
+        if (isMounted && profRes?.data) setProfile(profRes.data);
 
-      const [projects, blogs, messages, views, likes, unread] = await Promise.all([
-        safeQuery(sb => sb.from("db_projects").select("id", { count: "exact", head: true })),
-        safeQuery(sb => sb.from("db_blogs").select("id", { count: "exact", head: true })),
-        safeQuery(sb => sb.from("messages").select("id", { count: "exact", head: true })),
-        safeQuery(sb => sb.from("page_views").select("id", { count: "exact", head: true })),
-        safeQuery(sb => sb.from("project_likes").select("id", { count: "exact", head: true })),
-        safeQuery(sb => sb.from("messages").select("id", { count: "exact", head: true }).eq("is_read", false)),
-      ]);
-
-      setStats({
-        projects: projects.count ?? 0,
-        blogs: blogs.count ?? 0,
-        messages: messages.count ?? 0,
-        views: views.count ?? 0,
-        likes: likes.count ?? 0,
-        unread: unread.count ?? 0,
-      });
-
-      // Views per day (last 14 days)
-      const { data: rawViews } = await safeQuery(sb =>
-        sb.from("page_views").select("created_at, country, device").order("created_at", { ascending: false }).limit(500)
-      );
-
-      if (rawViews) {
-        // Daily chart
-        const grouped = {};
-        rawViews.forEach(v => {
-          const day = new Date(v.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-          grouped[day] = (grouped[day] || 0) + 1;
-        });
-        setViewsData(Object.entries(grouped).slice(0, 14).reverse().map(([date, views]) => ({ date, views })));
-
-        // Top countries
-        const countries = {};
-        rawViews.forEach(v => {
-          if (v.country) countries[v.country] = (countries[v.country] || 0) + 1;
-        });
-        setTopCountries(
-          Object.entries(countries)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 6)
-            .map(([name, value]) => ({ name, value }))
-        );
-
-        // Device breakdown
-        const devices = { Desktop: 0, Mobile: 0, Tablet: 0 };
-        rawViews.forEach(v => {
-          const d = v.device || "Desktop";
-          if (d.includes("Mobile")) devices.Mobile++;
-          else if (d.includes("Tablet")) devices.Tablet++;
-          else devices.Desktop++;
-        });
-        setDeviceData([
-          { name: "Desktop", value: devices.Desktop, color: "#4FFFB0" },
-          { name: "Mobile", value: devices.Mobile, color: "#a855f7" },
-          { name: "Tablet", value: devices.Tablet, color: "#38bdf8" },
+        const [projects, blogs, messages, views, likes, unread] = await Promise.allSettled([
+          safeQuery(sb => sb.from("db_projects").select("id", { count: "exact", head: true })),
+          safeQuery(sb => sb.from("db_blogs").select("id", { count: "exact", head: true })),
+          safeQuery(sb => sb.from("messages").select("id", { count: "exact", head: true })),
+          safeQuery(sb => sb.from("page_views").select("id", { count: "exact", head: true })),
+          safeQuery(sb => sb.from("project_likes").select("id", { count: "exact", head: true })),
+          safeQuery(sb => sb.from("messages").select("id", { count: "exact", head: true }).eq("is_read", false)),
         ]);
-      }
 
-      // Recent messages for activity feed
-      const { data: msgs } = await safeQuery(sb =>
-        sb.from("messages").select("*").order("created_at", { ascending: false }).limit(5)
-      );
-      if (msgs) {
-        setRecentMessages(msgs);
-        setActivityFeed(msgs.map(m => ({
-          icon: Mail,
-          text: `${m.name} sent a message`,
-          time: new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          accent: "#38bdf8",
-        })));
-      }
+        if (isMounted) {
+          setStats({
+            projects: projects.status === "fulfilled" ? (projects.value?.count ?? 0) : 0,
+            blogs: blogs.status === "fulfilled" ? (blogs.value?.count ?? 0) : 0,
+            messages: messages.status === "fulfilled" ? (messages.value?.count ?? 0) : 0,
+            views: views.status === "fulfilled" ? (views.value?.count ?? 0) : 0,
+            likes: likes.status === "fulfilled" ? (likes.value?.count ?? 0) : 0,
+            unread: unread.status === "fulfilled" ? (unread.value?.count ?? 0) : 0,
+          });
+        }
 
-      setLoading(false);
+        // Views per day (last 14 days)
+        const rawViewsRes = await safeQuery(sb =>
+          sb.from("page_views").select("created_at, country, device").order("created_at", { ascending: false }).limit(500)
+        );
+        const rawViews = rawViewsRes?.data;
+
+        if (isMounted && rawViews && rawViews.length > 0) {
+          // Daily chart
+          const grouped = {};
+          rawViews.forEach(v => {
+            const day = new Date(v.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+            grouped[day] = (grouped[day] || 0) + 1;
+          });
+          setViewsData(Object.entries(grouped).slice(0, 14).reverse().map(([date, views]) => ({ date, views })));
+
+          // Top countries
+          const countries = {};
+          rawViews.forEach(v => {
+            if (v.country) countries[v.country] = (countries[v.country] || 0) + 1;
+          });
+          setTopCountries(
+            Object.entries(countries)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 6)
+              .map(([name, value]) => ({ name, value }))
+          );
+
+          // Device breakdown
+          const devices = { Desktop: 0, Mobile: 0, Tablet: 0 };
+          rawViews.forEach(v => {
+            const d = v.device || "Desktop";
+            if (d.includes("Mobile")) devices.Mobile++;
+            else if (d.includes("Tablet")) devices.Tablet++;
+            else devices.Desktop++;
+          });
+          setDeviceData([
+            { name: "Desktop", value: devices.Desktop, color: "#4FFFB0" },
+            { name: "Mobile", value: devices.Mobile, color: "#a855f7" },
+            { name: "Tablet", value: devices.Tablet, color: "#38bdf8" },
+          ]);
+        }
+
+        // Recent messages for activity feed
+        const msgsRes = await safeQuery(sb =>
+          sb.from("messages").select("*").order("created_at", { ascending: false }).limit(5)
+        );
+        const msgs = msgsRes?.data;
+        if (isMounted && msgs) {
+          setRecentMessages(msgs);
+          setActivityFeed(msgs.map(m => ({
+            icon: Mail,
+            text: `${m.name} sent a message`,
+            time: new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            accent: "#38bdf8",
+          })));
+        }
+      } catch (err) {
+        console.error("Dashboard data load error:", err);
+      } finally {
+        if (isMounted) {
+          clearTimeout(safetyTimer);
+          setLoading(false);
+        }
+      }
     };
     load();
+
+    return () => {
+      isMounted = false;
+      clearTimeout(safetyTimer);
+    };
   }, []);
 
   if (loading) {

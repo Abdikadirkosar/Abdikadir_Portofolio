@@ -235,7 +235,8 @@ const About = () => {
                 variants={scaleIn}
                 src={dbProfile?.about_image || dbProfile?.avatar || "/Photos/image.png"}
                 alt={dbProfile?.name || "Abdikadir Kosar"}
-                loading="lazy"
+                loading="eager"
+                fetchPriority="high"
                 decoding="async"
                 initial={{ scale: 1.05, filter: "grayscale(30%) brightness(0.95)" }}
                 whileHover={{
@@ -244,7 +245,7 @@ const About = () => {
                   transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
                 }}
                 className="h-full w-full object-cover rounded-xl transition-all duration-700 will-change-transform"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
+                onError={(e) => { e.currentTarget.src = "/Photos/image.png"; }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent pointer-events-none" />
             </div>
