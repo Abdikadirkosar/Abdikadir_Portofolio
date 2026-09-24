@@ -318,26 +318,53 @@ const Dashboard = () => {
 
       {/* Countries bar + Device pie + Recent messages */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Top Countries */}
+        {/* Top Countries & Global Visitor Map Radar */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-          className="rounded-2xl border border-white/[0.06] bg-[#0d0d14]/80 p-6"
+          className="rounded-2xl border border-white/[0.06] bg-[#0d0d14]/80 p-6 flex flex-col justify-between"
         >
-          <div className="flex items-center gap-2 mb-5">
-            <Globe size={15} className="text-[#38bdf8]" />
-            <h2 className="text-white font-bold text-sm">Top Countries</h2>
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Globe size={15} className="text-[#38bdf8]" />
+                <h2 className="text-white font-bold text-sm">Global Traffic Radar</h2>
+              </div>
+              <span className="text-[10px] font-mono text-[#4FFFB0] bg-[#4FFFB0]/10 px-2 py-0.5 rounded-full border border-[#4FFFB0]/20 animate-pulse">
+                ● Live Geo
+              </span>
+            </div>
+
+            {/* Radar Mini Map Simulation Container */}
+            <div className="relative h-20 w-full mb-3 rounded-xl bg-black/40 border border-white/5 overflow-hidden flex items-center justify-center">
+              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:12px_12px]" />
+              <div className="w-12 h-12 rounded-full border border-[#38bdf8]/30 animate-ping absolute" />
+              <div className="w-6 h-6 rounded-full bg-[#38bdf8]/20 border border-[#38bdf8]/50 flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-[#38bdf8] shadow-[0_0_10px_#38bdf8]" />
+              </div>
+              <span className="absolute bottom-1 right-2 text-[9px] font-mono text-white/30">Global Nodes Online</span>
+            </div>
           </div>
+
           {topCountries.length > 0 ? (
-            <ResponsiveContainer width="100%" height={180}>
-              <BarChart data={topCountries} layout="vertical" barSize={8}>
-                <XAxis type="number" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 9 }} axisLine={false} tickLine={false} />
-                <YAxis type="category" dataKey="name" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 10 }} axisLine={false} tickLine={false} width={70} />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="value" name="Visitors" fill="#38bdf8" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div>
+              <ResponsiveContainer width="100%" height={140}>
+                <BarChart data={topCountries} layout="vertical" barSize={7}>
+                  <XAxis type="number" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 9 }} axisLine={false} tickLine={false} />
+                  <YAxis type="category" dataKey="name" tick={{ fill: "rgba(255,255,255,0.6)", fontSize: 10 }} axisLine={false} tickLine={false} width={75} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Bar dataKey="value" name="Visitors" fill="#38bdf8" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+              <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-white/[0.04]">
+                {topCountries.slice(0, 3).map((c, i) => (
+                  <span key={i} className="text-[10px] font-mono text-white/50 bg-white/[0.02] px-2 py-0.5 rounded border border-white/5">
+                    🌐 {c.name}: <strong className="text-[#38bdf8]">{c.value}</strong>
+                  </span>
+                ))}
+              </div>
+            </div>
           ) : (
-            <div className="h-40 flex items-center justify-center text-white/20 text-xs font-mono">No geo data yet</div>
+            <div className="h-32 flex items-center justify-center text-white/20 text-xs font-mono">No geo data yet</div>
           )}
         </motion.div>
 

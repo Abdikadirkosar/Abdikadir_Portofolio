@@ -99,12 +99,23 @@ const TestimonialsTab = () => {
     }
   };
 
+  const handleToggleApprove = async (t) => {
+    const newStatus = t.approved === false ? true : false;
+    const { error } = await safeQuery(sb =>
+      sb.from("db_testimonials").update({ approved: newStatus }).eq("id", t.id)
+    );
+    if (!error) {
+      toast.success(newStatus ? "Testimonial Approved & Live!" : "Testimonial set to Pending");
+      setTestimonials(prev => prev.map(item => item.id === t.id ? { ...item, approved: newStatus } : item));
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
         <div>
-          <h1 className="text-xl font-bold text-white">Testimonials</h1>
-          <p className="text-white/40 text-xs mt-0.5">Manage client feedback, company endorsements, and ratings.</p>
+          <h1 className="text-xl font-bold text-white">Testimonials & Client Reviews</h1>
+          <p className="text-white/40 text-xs mt-0.5">Manage public reviews, approve submissions, and ratings.</p>
         </div>
         <button onClick={handleAddClick} className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-[#4FFFB0]/10 border border-[#4FFFB0]/25 text-[#4FFFB0] hover:bg-[#4FFFB0]/20 transition-all cursor-pointer">
           <Plus size={14} /> Add Review
@@ -122,26 +133,46 @@ const TestimonialsTab = () => {
           {testimonials.map(t => (
             <div key={t.id} className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 flex flex-col justify-between gap-4">
               <div>
-                <div className="flex items-center gap-3">
-                  {t.photo_url ? (
-                    <img src={t.photo_url} alt={t.client_name} className="w-10 h-10 rounded-full object-cover border border-white/10" />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold">{t.client_name.charAt(0)}</div>
-                  )}
-                  <div>
-                    <p className="text-white text-xs font-bold">{t.client_name}</p>
-                    <p className="text-[10px] text-white/30 font-mono">{t.company}</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    {t.photo_url ? (
+                      <img src={t.photo_url} alt={t.client_name} className="w-10 h-10 rounded-full object-cover border border-white/10" />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold">{t.client_name?.charAt(0)}</div>
+                    )}
+                    <div>
+                      <p className="text-white text-xs font-bold">{t.client_name}</p>
+                      <p className="text-[10px] text-white/30 font-mono">{t.company}</p>
+                    </div>
                   </div>
+
+                  {/* Status Badge */}
+                  <button
+                    onClick={() => handleToggleApprove(t)}
+                    className={`text-[9px] font-mono px-2 py-0.5 rounded-full border cursor-pointer transition-colors ${
+                      t.approved !== false
+                        ? "bg-[#4FFFB0]/10 text-[#4FFFB0] border-[#4FFFB0]/30 hover:bg-[#4FFFB0]/20"
+                        : "bg-yellow-500/10 text-yellow-400 border-yellow-500/30 hover:bg-yellow-500/20"
+                    }`}
+                  >
+                    {t.approved !== false ? "✓ Approved" : "⏳ Pending"}
+                  </button>
                 </div>
-                <p className="text-white/40 text-xs italic mt-3 leading-relaxed">"{t.review}"</p>
+                <p className="text-white/40 text-xs italic mt-3 leading-relaxed">"{t.review || t.feedback}"</p>
               </div>
               <div className="flex items-center justify-between border-t border-white/[0.06] pt-3">
                 <div className="flex gap-0.5">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={10} className={i < t.rating ? "text-yellow-400 fill-yellow-400" : "text-white/10"} />
+                    <Star key={i} size={10} className={i < (t.rating || 5) ? "text-yellow-400 fill-yellow-400" : "text-white/10"} />
                   ))}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleToggleApprove(t)}
+                    className="text-[10px] font-mono text-white/40 hover:text-[#4FFFB0] px-2 py-1 rounded bg-white/5 cursor-pointer"
+                  >
+                    {t.approved !== false ? "Unapprove" : "Approve"}
+                  </button>
                   <button onClick={() => handleEditClick(t)} className="text-white/40 hover:text-white p-1 cursor-pointer"><Edit2 size={12}/></button>
                   <button onClick={() => handleDelete(t.id)} className="text-red-400/50 hover:text-red-400 p-1 cursor-pointer"><Trash2 size={12}/></button>
                 </div>

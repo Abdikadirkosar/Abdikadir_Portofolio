@@ -9,7 +9,10 @@ import { safeQuery } from "../../lib/supabase";
 import MiniTerminal from "../../Components/MiniTerminal";
 import ResumeDownloadButton from "../../Components/ResumeDownloadButton";
 import { useLiveVisitors } from "../../hooks/useLiveVisitors";
-import { Users } from "lucide-react";
+import { Users, FileText } from "lucide-react";
+import VoiceIntroButton from "../../Components/VoiceIntroButton";
+import InteractiveCVModal from "../../Components/InteractiveCVModal";
+import { soundFX } from "../../lib/soundFX";
 
 const wordsList = ["products", "strategies", "apps", "pipelines"];
 
@@ -126,6 +129,7 @@ const StatItem = ({ value, label, color, index }) => (
 
 // ── Main Home component ───────────────────────────────────────────────────────
 const Home = () => {
+  const [isCVModalOpen, setIsCVModalOpen] = useState(false);
   const [prof, setProf] = useState(() => {
     try {
       const cached = localStorage.getItem("cached_profile");
@@ -387,15 +391,26 @@ const Home = () => {
           </MagneticButton>
 
           <MagneticButton strength={0.25}>
-            <a
-              href={prof?.resume_url || "/Abdikadir_Kosar_Osman_CV.pdf"}
-              download="Abdikadir_Kosar_CV.pdf"
-              className="btn-premium flex gap-2 items-center font-bold text-[14px] bg-white/5 hover:bg-white/10 text-white border border-white/15 hover:border-[#4FFFB0]/40 px-7 py-3.5 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.04)] hover:shadow-[0_0_30px_rgba(79,255,176,0.15)] transition-all duration-200 cursor-pointer backdrop-blur-sm"
+            <button
+              onClick={() => { soundFX.playPop(); setIsCVModalOpen(true); }}
+              className="btn-premium flex gap-2 items-center font-bold text-[14px] bg-white/5 hover:bg-white/10 text-white border border-white/15 hover:border-[#4FFFB0]/40 px-6 py-3.5 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.04)] hover:shadow-[0_0_30px_rgba(79,255,176,0.15)] transition-all duration-200 cursor-pointer backdrop-blur-sm"
             >
-              Download CV
-            </a>
+              <FileText size={16} className="text-[#4FFFB0]" />
+              Interactive CV
+            </button>
           </MagneticButton>
+
+          <div className="flex items-center">
+            <VoiceIntroButton />
+          </div>
         </motion.div>
+
+        {/* Interactive CV Modal */}
+        <InteractiveCVModal
+          isOpen={isCVModalOpen}
+          onClose={() => setIsCVModalOpen(false)}
+          profile={prof}
+        />
       </div>
 
       {/* ── Right side — Profile Card ─────────────────────────────────────────── */}

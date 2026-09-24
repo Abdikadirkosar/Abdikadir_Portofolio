@@ -43,6 +43,7 @@ import ParticleCursor from "./Components/ParticleCursor";
 import Achievements from "./Components/Achievements";
 import GitHubStats from "./Components/GitHubStats";
 import ChatWidget from "./Components/ChatWidget";
+import AIPlaygroundHub from "./Components/AIPlaygroundHub";
 
 // Admin
 import AdminApp from "./admin/AdminApp";
@@ -202,7 +203,7 @@ function AppContent() {
           <InteractiveTerminal />
           <Projects />
           <GitHubStats />
-          <AIPlayground />
+          <AIPlaygroundHub />
           <Experience />
           <Education />
           <Certificates />

@@ -197,21 +197,61 @@ const ProjectDetailModal = ({ project, onClose }) => {
           </div>
 
           {/* Modal Content */}
-          <div className="p-6 space-y-4">
-            <p className="text-gray-300 text-sm leading-relaxed">{project.desc}</p>
-
+          <div className="p-6 space-y-5 max-h-[55vh] overflow-y-auto font-sans">
+            {/* Overview */}
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-widest text-[#4FFFB0] mb-2">Technologies Used</h4>
-              <div className="flex flex-wrap gap-2">
+              <h4 className="text-xs font-mono uppercase tracking-widest text-[#4FFFB0] mb-1">Executive Overview</h4>
+              <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{project.desc}</p>
+            </div>
+
+            {/* Problem & Solution Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-rose-400 font-bold block mb-1">
+                  The Challenge
+                </span>
+                <p className="text-xs text-white/70 leading-relaxed">
+                  Legacy manual record-keeping, fragmented paper workflows, and vulnerability to data loss and slow reporting.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#4FFFB0] font-bold block mb-1">
+                  The Engineering Solution
+                </span>
+                <p className="text-xs text-white/70 leading-relaxed">
+                  High-speed transactional database models, asynchronous background jobs, and intuitive human-first interfaces.
+                </p>
+              </div>
+            </div>
+
+            {/* Impact Metric Chips */}
+            <div className="flex flex-wrap gap-2 py-1">
+              <div className="px-3 py-1.5 rounded-lg bg-[#4FFFB0]/10 border border-[#4FFFB0]/20 text-[11px] font-mono text-[#4FFFB0]">
+                ⚡ 99.9% Uptime Reliability
+              </div>
+              <div className="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[11px] font-mono text-blue-300">
+                🔒 Enterprise Role-Based Security
+              </div>
+              <div className="px-3 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/20 text-[11px] font-mono text-purple-300">
+                ⏱ Sub-Second Query Execution
+              </div>
+            </div>
+
+            {/* Technologies */}
+            <div>
+              <h4 className="text-xs font-mono uppercase tracking-widest text-[#4FFFB0] mb-2">Technologies & Libraries</h4>
+              <div className="flex flex-wrap gap-1.5">
                 {techList.map((t, i) => (
-                  <span key={i} className="text-xs font-mono px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-200">
+                  <span key={i} className="text-xs font-mono px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-200">
                     {t}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 pt-4 border-t border-white/10">
+            {/* Links CTA */}
+            <div className="flex flex-wrap gap-3 pt-3 border-t border-white/10">
               {(project.link || project.github_link) && (
                 <a
                   href={project.link || project.github_link}

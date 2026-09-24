@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, Quote, ChevronLeft, ChevronRight, Building2 } from "lucide-react";
+import { Star, Quote, ChevronLeft, ChevronRight, Building2, MessageSquarePlus } from "lucide-react";
 import { safeQuery } from "../lib/supabase";
 import { useSectionGSAP } from "../hooks/useSectionGSAP";
+import LeaveReviewModal from "../Components/LeaveReviewModal";
+import { soundFX } from "../lib/soundFX";
 
 // ── Default testimonials (shown when DB is empty) ─────────────────────────────
 const defaultTestimonials = [
@@ -128,6 +130,7 @@ const Testimonials = () => {
     return () => clearInterval(timer);
   }, [paused, items.length, active]);
 
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
   const current = items[active];
   const accent = ACCENTS[active % ACCENTS.length];
 
@@ -150,13 +153,13 @@ const Testimonials = () => {
       />
 
       <div className="max-w-5xl mx-auto relative z-10">
-        {/* Header */}
+        {/* Header with Leave Review Button */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-16 relative"
         >
           <p className="text-xs font-mono tracking-[0.25em] text-white/30 uppercase mb-4">
             — Client Feedback —
@@ -168,7 +171,24 @@ const Testimonials = () => {
             className="h-px w-24 mx-auto mt-5 rounded-full transition-all duration-700"
             style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
           />
+
+          {/* Leave a Review Button */}
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={() => { soundFX.playPop(); setIsReviewOpen(true); }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.03] border border-white/10 text-white/80 hover:text-white hover:border-[#4FFFB0]/40 text-xs font-mono transition-all hover:bg-white/[0.06] cursor-pointer"
+            >
+              <MessageSquarePlus size={14} className="text-[#4FFFB0]" />
+              <span>Worked with me? Leave a Client Review</span>
+            </button>
+          </div>
         </motion.div>
+
+        {/* Modal */}
+        <LeaveReviewModal
+          isOpen={isReviewOpen}
+          onClose={() => setIsReviewOpen(false)}
+        />
 
         {/* Main card */}
         <div
