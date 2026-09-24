@@ -160,9 +160,10 @@ export function ProfileCard({ prof }) {
       {/* ── Main Card Frame ─────────────────────────────────────────────────── */}
       <div
         ref={innerRef}
-        className="relative lg:w-[340px] lg:h-[445px] w-[280px] h-[380px] rounded-[24px] overflow-hidden border border-white/[0.08] bg-[#0A0A0E] transition-all duration-[300ms] ease-out group"
+        className="profile-card-frame relative lg:w-[340px] lg:h-[445px] w-[280px] h-[380px] rounded-[24px] overflow-hidden border border-white/[0.08] bg-[#0A0A0E] transition-all duration-[300ms] ease-out group"
         style={{ transformStyle: "preserve-3d" }}
       >
+
         {/* Dynamic Light Glare */}
         <div
           ref={glareRef}

@@ -10,6 +10,7 @@ import ProjectCostEstimator from "./ProjectCostEstimator";
 import VCardModal from "./VCardModal";
 import BookCallModal from "./BookCallModal";
 import { Sun, Moon, Languages, ChevronDown, Sparkles, Palette } from "lucide-react";
+import { soundFX } from "../lib/soundFX";
 
 // ── Nav sections ──────────────────────────────────────────────────────────────
 const navKeys = [
@@ -325,16 +326,42 @@ const NavBar = () => {
               <span>{lang === "EN" ? "EN" : "SO"}</span>
             </button>
 
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="w-8 h-8 flex items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.04] text-white/60 hover:text-[#4FFFB0] hover:border-[#4FFFB0]/30 hover:bg-[#4FFFB0]/8 transition-all duration-200 cursor-pointer"
-              title={isDark ? "Light Mode" : "Dark Mode"}
+            {/* Celestial Luxury Theme Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92, rotate: 180 }}
+              transition={{ type: "spring", stiffness: 350, damping: 20 }}
+              onClick={() => {
+                soundFX.playPop();
+                toggleTheme();
+              }}
+              className="relative w-8 h-8 flex items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.04] text-white/60 hover:text-[#4FFFB0] hover:border-[#4FFFB0]/40 transition-all duration-300 cursor-pointer shadow-sm"
+              title={isDark ? "Switch to Frost Pearl (Light Mode)" : "Switch to OLED Obsidian (Dark Mode)"}
             >
-              {isDark
-                ? <Sun size={14} className="text-amber-300" />
-                : <Moon size={14} className="text-indigo-400" />}
-            </button>
+              <AnimatePresence mode="wait" initial={false}>
+                {isDark ? (
+                  <motion.div
+                    key="sun"
+                    initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: 90, opacity: 0, scale: 0.5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Sun size={15} className="text-amber-300 drop-shadow-[0_0_6px_rgba(252,211,77,0.6)]" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="moon"
+                    initial={{ rotate: 90, opacity: 0, scale: 0.5 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: -90, opacity: 0, scale: 0.5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Moon size={15} className="text-indigo-600 drop-shadow-[0_0_6px_rgba(79,70,229,0.4)]" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
 
             {/* Divider */}
             <div className="w-px h-5 bg-white/[0.1]" />
@@ -437,11 +464,11 @@ const NavBar = () => {
                 </button>
                 <div className="flex items-center justify-center gap-3">
                   <button
-                    onClick={toggleTheme}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-white/10 text-white/50 hover:text-white text-xs font-mono transition-all"
+                    onClick={() => { soundFX.playPop(); toggleTheme(); }}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-white/10 text-white/50 hover:text-white text-xs font-mono transition-all cursor-pointer"
                   >
                     {isDark ? <Sun size={13} className="text-amber-300" /> : <Moon size={13} className="text-indigo-400" />}
-                    {isDark ? "Light" : "Dark"}
+                    {isDark ? "Light Mode" : "Dark Mode"}
                   </button>
                   <button
                     onClick={toggleLanguage}

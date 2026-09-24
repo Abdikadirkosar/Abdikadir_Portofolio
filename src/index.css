@@ -43,10 +43,18 @@
 body {
   font-family: "Outfit", "Inter", sans-serif;
   background-color: var(--bg);
-  color: #fff;
+  color: var(--text-primary, #fff);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+/* ── Liquid Smooth Global Transitions for Theme Switching ────────────────── */
+body, main, section, nav, footer, header, div, span, p, h1, h2, h3, h4, h5, h6, a, button, input, textarea {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Universal Device Responsiveness & Touch Safeguards ──────────────── */
@@ -74,14 +82,19 @@ section, nav, footer, .glass {
   backface-visibility: hidden;
 }
 
-/* ── Frost Pearl & Deep Emerald Luxury Light Mode Suite ──────────────────── */
+/* ── Frost Pearl & Swiss Alabaster Luxury Light Mode Suite ───────────────── */
 html.light {
-  --bg: #F1F5F9;
+  --bg: #F8FAFC;
   --surface: #FFFFFF;
+  --surface-translucent: rgba(255, 255, 255, 0.88);
   --text-primary: #0F172A;
   --text-secondary: #334155;
+  --text-muted: #64748B;
   --accent: #059669;
-  --accent-dim: rgba(5, 150, 105, 0.14);
+  --accent-hover: #047857;
+  --accent-dim: rgba(5, 150, 105, 0.12);
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --card-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 20px 40px -15px rgba(5, 150, 105, 0.06);
   color-scheme: light;
 }
 
@@ -89,7 +102,7 @@ html.light body,
 html.light main,
 html.light section,
 html.light footer {
-  background-color: #F1F5F9 !important;
+  background-color: #F8FAFC !important;
   color: #0F172A !important;
 }
 
@@ -98,6 +111,10 @@ html.light section,
 html.light footer,
 html.light [style*="background: #0A0A0A"],
 html.light [style*="background:#0A0A0A"],
+html.light [style*="background: #08080C"],
+html.light [style*="background:#08080C"],
+html.light [style*="background: #07070A"],
+html.light [style*="background:#07070A"],
 html.light [style*="background: #060609"],
 html.light [style*="background:#060609"],
 html.light [style*="background: rgb(10, 10, 10)"],
@@ -106,8 +123,8 @@ html.light [style*="background:#0d0d12"],
 html.light [style*="background: #000"],
 html.light [style*="background:#000"],
 html.light [style*="background: black"] {
-  background-color: #F1F5F9 !important;
-  background: #F1F5F9 !important;
+  background-color: #F8FAFC !important;
+  background: #F8FAFC !important;
   color: #0F172A !important;
 }
 
@@ -210,47 +227,48 @@ html.light [class*="border-white/"] {
   border-color: rgba(15, 23, 42, 0.12) !important;
 }
 
-/* Light Mode Navbar */
+/* Light Mode Navbar - Floating Frosted Glass Island */
 html.light nav {
-  background: rgba(241, 245, 249, 0.94) !important;
-  border-bottom-color: rgba(15, 23, 42, 0.12) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(24px) !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 30px rgba(15, 23, 42, 0.04) !important;
 }
 
 html.light nav button,
 html.light nav a,
-html.light nav span,
+html.light nav span:not([class*="bg-[#4FFFB0]"]),
 html.light nav p,
 html.light nav div {
   color: #0F172A !important;
 }
 
-html.light nav button[class*="bg-white/5"] {
-  background: rgba(15, 23, 42, 0.08) !important;
-  border-color: rgba(15, 23, 42, 0.15) !important;
+html.light nav button[class*="bg-white/"] {
+  background: rgba(15, 23, 42, 0.04) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
   color: #0F172A !important;
 }
 
 html.light nav kbd {
-  background: rgba(15, 23, 42, 0.1) !important;
-  border-color: rgba(15, 23, 42, 0.15) !important;
+  background: rgba(15, 23, 42, 0.08) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
   color: #0F172A !important;
 }
 
 /* HUD badges and accent tags in Light Mode */
 html.light .hud-badge {
-  background: rgba(5, 150, 105, 0.12) !important;
+  background: rgba(5, 150, 105, 0.1) !important;
   color: #059669 !important;
-  border: 1px solid rgba(5, 150, 105, 0.3) !important;
+  border: 1px solid rgba(5, 150, 105, 0.25) !important;
   font-weight: 600 !important;
-  box-shadow: 0 0 15px rgba(5, 150, 105, 0.15) !important;
+  box-shadow: 0 0 15px rgba(5, 150, 105, 0.1) !important;
 }
 
 /* Accent button overrides in Light Mode */
 html.light [class*="bg-[#4FFFB0]"] {
   background-color: #059669 !important;
   color: #FFFFFF !important;
-  box-shadow: 0 0 20px rgba(5, 150, 105, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.25) !important;
 }
 
 html.light [class*="text-[#4FFFB0]"] {
@@ -258,13 +276,66 @@ html.light [class*="text-[#4FFFB0]"] {
 }
 
 html.light nav div[class*="border-white"] {
-  border-color: rgba(15, 23, 42, 0.12) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
 }
 
 /* Soft ambient lighting in Light Mode */
 html.light [class*="bg-[linear-gradient(to_bottom"] {
   background: linear-gradient(to bottom, rgba(241, 245, 249, 0) 0%, rgba(241, 245, 249, 0.85) 70%, #F1F5F9 100%) !important;
 }
+
+/* ── Extended Light Mode: Tailwind Arbitrary BG Class Overrides ──────────── */
+/* Catches all dark-hardcoded sections that use Tailwind arbitrary hex classes */
+html.light [class*="bg-[#0A0A0A]"],
+html.light [class*="bg-[#0a0a0a]"],
+html.light [class*="bg-[#0A0A0E]"],
+html.light [class*="bg-[#0a0a0e]"],
+html.light [class*="bg-[#08080C]"],
+html.light [class*="bg-[#08080c]"],
+html.light [class*="bg-[#07070A]"],
+html.light [class*="bg-[#07070a]"],
+html.light [class*="bg-[#060609]"],
+html.light [class*="bg-[#0d0d14]"],
+html.light [class*="bg-[#0d0d12]"],
+html.light [class*="bg-[#0D0D14]"],
+html.light [class*="bg-[#111111]"],
+html.light [class*="bg-[#111827]"] {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+/* ── ProfileCard Frame in Light Mode — Frosted Ivory Glass ───────────────── */
+html.light .profile-card-frame {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: rgba(5, 150, 105, 0.18) !important;
+  box-shadow: 0 20px 60px -10px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(5, 150, 105, 0.08) !important;
+}
+
+/* ── Luxury Card Elevation via var(--card-shadow) ─────────────────────────── */
+/* Apply premium elevation shadow to all rounded card containers in light mode */
+html.light [class*="rounded-2xl"],
+html.light [class*="rounded-xl"],
+html.light [class*="rounded-3xl"] {
+  box-shadow: var(--card-shadow, 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 20px 40px -15px rgba(5, 150, 105, 0.06)) !important;
+}
+
+/* ── OLED Obsidian Dark Mode — Deepen section backgrounds to #07070A ──────── */
+html:not(.light) [class*="bg-[#0A0A0A]"],
+html:not(.light) [class*="bg-[#0a0a0a]"],
+html:not(.light) [class*="bg-[#0A0A0E]"],
+html:not(.light) [class*="bg-[#0a0a0e]"] {
+  background-color: #07070A !important;
+}
+
+/* ── Dark Mode Scrollbar — OLED matched ──────────────────────────────────── */
+html:not(.light) ::-webkit-scrollbar { background: #07070A; }
+html:not(.light) ::-webkit-scrollbar-track { background: #07070A; }
+
+/* ── Light Mode Scrollbar ─────────────────────────────────────────────────── */
+html.light ::-webkit-scrollbar { background: #F1F5F9; }
+html.light ::-webkit-scrollbar-track { background: #F1F5F9; }
+html.light ::-webkit-scrollbar-thumb { background: rgba(5, 150, 105, 0.35); }
+html.light ::-webkit-scrollbar-thumb:hover { background: rgba(5, 150, 105, 0.6); }
 
 html {
   scroll-behavior: smooth;
