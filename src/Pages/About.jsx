@@ -135,32 +135,55 @@ const StatCard = ({ value, label }) => {
 // ── Main Component ────────────────────────────────────────────────────────────
 const About = () => {
   const { t } = useLanguage();
-  const [dbProfile, setDbProfile] = useState(null);
-  const [dbTimeline, setDbTimeline] = useState(null);
+  const [dbProfile, setDbProfile] = useState(() => {
+    try {
+      const cached = localStorage.getItem("cached_profile");
+      if (cached) return JSON.parse(cached);
+    } catch (_) {}
+    return null;
+  });
+  const [dbTimeline, setDbTimeline] = useState(() => {
+    try {
+      const cached = localStorage.getItem("cached_experience");
+      if (cached) return JSON.parse(cached);
+    } catch (_) {}
+    return null;
+  });
 
   useEffect(() => {
+    let isMounted = true;
     const loadData = async () => {
-      const { data: profData } = await safeQuery(sb => sb.from("db_profile").select("*").eq("id", 1).single());
-      if (profData) {
-        setDbProfile(profData);
-      }
+      try {
+        const { data: profData } = await safeQuery(sb => sb.from("db_profile").select("*").eq("id", 1).single());
+        if (isMounted && profData) {
+          setDbProfile(profData);
+          try { localStorage.setItem("cached_profile", JSON.stringify(profData)); } catch (_) {}
+        }
 
-      const { data: expData } = await safeQuery(sb => sb.from("db_experience").select("*").order("created_at", { ascending: false }));
-      if (expData && expData.length > 0) {
-        const colors = ["#4FFFB0", "#7abfab", "#4a9a7a", "#a855f7", "#3b82f6"];
-        const mapped = expData.map((item, idx) => ({
-          year: `${item.start_date}–${item.end_date || "Present"}`,
-          title: item.position,
-          org: item.company,
-          desc: item.description,
-          color: colors[idx % colors.length]
-        }));
-        setDbTimeline(mapped);
-      } else {
-        setDbTimeline(timeline);
+        const { data: expData } = await safeQuery(sb => sb.from("db_experience").select("*").order("created_at", { ascending: false }));
+        if (isMounted) {
+          if (expData && expData.length > 0) {
+            const colors = ["#4FFFB0", "#7abfab", "#4a9a7a", "#a855f7", "#3b82f6"];
+            const mapped = expData.map((item, idx) => ({
+              year: `${item.start_date}–${item.end_date || "Present"}`,
+              title: item.position,
+              org: item.company,
+              desc: item.description,
+              color: colors[idx % colors.length]
+            }));
+            setDbTimeline(mapped);
+            try { localStorage.setItem("cached_experience", JSON.stringify(mapped)); } catch (_) {}
+          } else if (!dbTimeline) {
+            setDbTimeline(timeline);
+          }
+        }
+      } catch (err) {
+        console.error("About data load error:", err);
       }
     };
     loadData();
+
+    return () => { isMounted = false; };
   }, []);
 
   return (

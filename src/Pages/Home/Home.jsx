@@ -126,15 +126,30 @@ const StatItem = ({ value, label, color, index }) => (
 
 // ── Main Home component ───────────────────────────────────────────────────────
 const Home = () => {
-  const [prof, setProf] = useState(null);
+  const [prof, setProf] = useState(() => {
+    try {
+      const cached = localStorage.getItem("cached_profile");
+      if (cached) return JSON.parse(cached);
+    } catch (_) {}
+    return null;
+  });
   const liveCount = useLiveVisitors();
 
   useEffect(() => {
+    let isMounted = true;
     const fetchProf = async () => {
-      const { data } = await safeQuery(sb => sb.from("db_profile").select("*").eq("id", 1).single());
-      if (data) setProf(data);
+      try {
+        const { data } = await safeQuery(sb => sb.from("db_profile").select("*").eq("id", 1).single());
+        if (isMounted && data) {
+          setProf(data);
+          try { localStorage.setItem("cached_profile", JSON.stringify(data)); } catch (_) {}
+        }
+      } catch (err) {
+        console.error("Home profile load error:", err);
+      }
     };
     fetchProf();
+    return () => { isMounted = false; };
   }, []);
 
   const texts = prof?.bio

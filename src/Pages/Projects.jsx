@@ -95,6 +95,8 @@ const ProgressiveImage = ({ src, alt, className, style, minHeight }) => {
         className={className}
         style={style}
         loading="eager"
+        decoding="async"
+        fetchPriority="high"
         onError={() => setImgSrc("/projects-images/dramatic-storm-clouds-vast-barren-field.jpg")}
       />
     </div>
@@ -427,33 +429,56 @@ const ProjectCard = ({ project, index, large = false, likesCount = 0, onLike, on
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [likes, setLikes] = useState({});
-  const [dbProjects, setDbProjects] = useState(null);
+  // Load from local storage cache immediately for zero-delay instant display
+  const [dbProjects, setDbProjects] = useState(() => {
+    try {
+      const cached = localStorage.getItem("cached_projects");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (_) {}
+    return null;
+  });
   const [selectedProject, setSelectedProject] = useState(null);
   const sectionRef = useSectionGSAP();
 
   useEffect(() => {
-    // Fetch projects from Supabase, fallback to static if empty/unavailable
+    let isMounted = true;
+
+    // Fetch projects from Supabase in background, update state and cache
     const load = async () => {
-      const { data } = await safeQuery((sb) =>
-        sb.from("db_projects").select("*").order("created_at", { ascending: false })
-      );
-      if (data && data.length > 0) {
-        // Normalize DB fields to match the component's expected shape
-        const normalized = data.map((p) => ({
-          id: p.id,
-          name: p.name,
-          bgImage: p.image_url || "",
-          desc: p.description || "",
-          tech: typeof p.tech === "string" ? p.tech.split(",").map(t => t.trim()) : (p.tech || []),
-          link: p.github_link || p.live_link || "https://github.com/abdikadirkosar",
-          live_link: p.live_link,
-          category: p.category || "Full Stack",
-          featured: p.featured,
-          status: p.status,
-        }));
-        setDbProjects(normalized);
-      } else {
-        setDbProjects(projects); // fallback to static
+      try {
+        const { data } = await safeQuery((sb) =>
+          sb.from("db_projects").select("*").order("created_at", { ascending: false })
+        );
+        if (data && data.length > 0) {
+          // Normalize DB fields to match the component's expected shape
+          const normalized = data.map((p) => ({
+            id: p.id,
+            name: p.name,
+            bgImage: p.image_url || "",
+            desc: p.description || "",
+            tech: typeof p.tech === "string" ? p.tech.split(",").map(t => t.trim()) : (p.tech || []),
+            link: p.github_link || p.live_link || "https://github.com/abdikadirkosar",
+            live_link: p.live_link,
+            category: p.category || "Full Stack",
+            featured: p.featured,
+            status: p.status,
+          }));
+
+          if (isMounted) {
+            setDbProjects(normalized);
+            try {
+              localStorage.setItem("cached_projects", JSON.stringify(normalized));
+            } catch (_) {}
+          }
+        } else if (isMounted && !dbProjects) {
+          setDbProjects(projects); // fallback to static only if no cache exists
+        }
+      } catch (err) {
+        console.error("Projects fetch error:", err);
+        if (isMounted && !dbProjects) setDbProjects(projects);
       }
     };
 
