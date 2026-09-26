@@ -5,7 +5,7 @@ import { supabase, safeQuery } from "../lib/supabase";
 import { toast } from "react-toastify";
 import {
   LayoutDashboard, FolderKanban, BookOpen, Briefcase,
-  GraduationCap, Award, MessageSquareQuote, Mail,
+  GraduationCap, Award, MessageSquareQuote, Mail, Calendar,
   Settings, LogOut, Menu, X, ExternalLink, ChevronRight, Bell
 } from "lucide-react";
 
@@ -48,6 +48,7 @@ const NAV_ITEMS = [
   { to: "/admin/certificates", icon: Award,                label: "Certificates" },
   { to: "/admin/testimonials", icon: MessageSquareQuote,   label: "Testimonials" },
   { to: "/admin/messages",     icon: Mail,                 label: "Messages", badge: true },
+  { to: "/admin/bookings",     icon: Calendar,             label: "Bookings" },
   { to: "/admin/settings",     icon: Settings,             label: "Settings" },
 ];
 

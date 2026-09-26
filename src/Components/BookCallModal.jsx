@@ -33,17 +33,31 @@ export default function BookCallModal({ triggerClassName, buttonText }) {
     }
 
     setSubmitting(true);
-    const messageText = `[BOOKING CALL REQUEST] Topic: ${selectedTopic} | Date: ${selectedDate} | Time: ${selectedSlot} (${duration}) | Notes: ${formData.notes}`;
+    const messageText = `[BOOKING CALL REQUEST] Topic: ${selectedTopic} | Date: ${selectedDate} | Time: ${selectedSlot} (${duration}) | Notes: ${formData.notes || "None"}`;
 
-    await safeQuery((sb) =>
-      sb.from("db_messages").insert([
-        {
-          name: formData.name,
-          email: formData.email,
-          message: messageText,
-        }
-      ])
-    ).catch(() => {});
+    // Insert into 'messages' (primary table used by admin dashboard) and 'db_messages' (legacy backup)
+    await Promise.allSettled([
+      safeQuery((sb) =>
+        sb.from("messages").insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            subject: `📅 Discovery Call (${selectedDate})`,
+            message: messageText,
+            is_read: false,
+          }
+        ])
+      ),
+      safeQuery((sb) =>
+        sb.from("db_messages").insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            message: messageText,
+          }
+        ])
+      )
+    ]);
 
     setSubmitting(false);
     setCompleted(true);

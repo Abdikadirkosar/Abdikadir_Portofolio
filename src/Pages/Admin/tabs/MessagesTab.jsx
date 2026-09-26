@@ -170,6 +170,11 @@ const MessagesTab = () => {
                       <p className="text-white text-sm font-semibold truncate">
                         {msg.name}
                       </p>
+                      {msg.message?.includes("[BOOKING CALL REQUEST]") && (
+                        <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/25 flex-shrink-0">
+                          📅 BOOKING
+                        </span>
+                      )}
                       {msg.subject && (
                         <span className="text-white/30 text-xs truncate hidden sm:block">
                           — {msg.subject}

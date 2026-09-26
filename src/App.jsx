@@ -57,6 +57,7 @@ import ManageEducation from "./admin/pages/ManageEducation";
 import ManageCertificates from "./admin/pages/ManageCertificates";
 import ManageTestimonials from "./admin/pages/ManageTestimonials";
 import Messages from "./admin/pages/Messages";
+import ManageBookings from "./admin/pages/ManageBookings";
 import Settings from "./admin/pages/Settings";
 
 // Register GSAP plugins globally
@@ -250,6 +251,7 @@ function App() {
                 <Route path="certificates" element={<ManageCertificates />} />
                 <Route path="testimonials" element={<ManageTestimonials />} />
                 <Route path="messages" element={<Messages />} />
+                <Route path="bookings" element={<ManageBookings />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
 
