@@ -4,7 +4,7 @@ import { safeQuery } from "../../lib/supabase";
 import {
   FolderKanban, BookOpen, Mail, Eye, Heart, TrendingUp,
   MessageSquare, Globe, Monitor, MapPin, ExternalLink,
-  Users, Activity, Zap, GitBranch, Link2,
+  Users, Activity, Zap, GitBranch, Link2, Calendar, Video
 } from "lucide-react";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
@@ -64,7 +64,7 @@ const ActivityItem = ({ icon: Icon, text, time, accent }) => (
 
 /* ── Main Dashboard ─────────────────────────────────────────── */
 const Dashboard = () => {
-  const [stats, setStats] = useState({ projects: 0, blogs: 0, messages: 0, views: 0, likes: 0, unread: 0 });
+  const [stats, setStats] = useState({ projects: 0, blogs: 0, messages: 0, views: 0, likes: 0, unread: 0, bookings: 0 });
   const [viewsData, setViewsData] = useState([]);
   const [recentMessages, setRecentMessages] = useState([]);
   const [topCountries, setTopCountries] = useState([]);
@@ -89,13 +89,14 @@ const Dashboard = () => {
         const profRes = await safeQuery(sb => sb.from("db_profile").select("*").eq("id", 1).single());
         if (isMounted && profRes?.data) setProfile(profRes.data);
 
-        const [projects, blogs, messages, views, likes, unread] = await Promise.allSettled([
+        const [projects, blogs, messages, views, likes, unread, bookings] = await Promise.allSettled([
           safeQuery(sb => sb.from("db_projects").select("id", { count: "exact", head: true })),
           safeQuery(sb => sb.from("db_blogs").select("id", { count: "exact", head: true })),
           safeQuery(sb => sb.from("messages").select("id", { count: "exact", head: true })),
           safeQuery(sb => sb.from("page_views").select("id", { count: "exact", head: true })),
           safeQuery(sb => sb.from("project_likes").select("id", { count: "exact", head: true })),
           safeQuery(sb => sb.from("messages").select("id", { count: "exact", head: true }).eq("is_read", false)),
+          safeQuery(sb => sb.from("messages").select("id", { count: "exact", head: true }).ilike("message", "%[BOOKING CALL REQUEST]%")),
         ]);
 
         if (isMounted) {
@@ -106,6 +107,7 @@ const Dashboard = () => {
             views: views.status === "fulfilled" ? (views.value?.count ?? 0) : 0,
             likes: likes.status === "fulfilled" ? (likes.value?.count ?? 0) : 0,
             unread: unread.status === "fulfilled" ? (unread.value?.count ?? 0) : 0,
+            bookings: bookings.status === "fulfilled" ? (bookings.value?.count ?? 0) : 0,
           });
         }
 
@@ -261,16 +263,18 @@ const Dashboard = () => {
       </div>
 
       {/* Stats row 1 */}
-      <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-3">
         <StatCard icon={FolderKanban} label="Projects"    value={stats.projects} accent="#4FFFB0" delay={0} />
-        <StatCard icon={BookOpen}     label="Blog Posts"  value={stats.blogs}    accent="#a855f7" delay={0.05} />
-        <StatCard icon={Mail}         label="Messages"    value={stats.messages} accent="#38bdf8" delay={0.1}
+        <StatCard icon={BookOpen}     label="Blog Posts"  value={stats.blogs}    accent="#a855f7" delay={0.04} />
+        <StatCard icon={Calendar}     label="Bookings"    value={stats.bookings} accent="#c084fc" delay={0.08}
+          sub="Discovery Calls" />
+        <StatCard icon={Mail}         label="Messages"    value={stats.messages} accent="#38bdf8" delay={0.12}
           sub={stats.unread > 0 ? `${stats.unread} unread` : "all read"} />
-        <StatCard icon={Eye}          label="Page Views"  value={stats.views}    accent="#fb923c" delay={0.15} />
+        <StatCard icon={Eye}          label="Page Views"  value={stats.views}    accent="#fb923c" delay={0.16} />
         <StatCard icon={Heart}        label="Likes"       value={stats.likes}    accent="#f472b6" delay={0.2} />
         <StatCard icon={Zap}          label="Engagement"
           value={stats.views > 0 ? `${Math.round((stats.likes / stats.views) * 100)}%` : "0%"}
-          accent="#facc15" delay={0.25} sub="likes / views" />
+          accent="#facc15" delay={0.24} sub="likes / views" />
       </div>
 
       {/* Views chart + Activity */}
