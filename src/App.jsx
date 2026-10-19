@@ -88,11 +88,25 @@ function useSectionSounds() {
 }
 
 function AppContent() {
-  const [showIntro, setShowIntro] = useState(true);
-  const [accentColor, setAccentColor] = useState("#4FFFB0");
+  const [showIntro, setShowIntro] = useState(() => {
+    // If the visitor already experienced the intro this session, load instantly!
+    try {
+      return !sessionStorage.getItem("abdikadir_intro_seen");
+    } catch {
+      return false;
+    }
+  });
+  const [accentColor, setAccentColor] = useState("#00F5A0");
   usePageViews("home");
   useSectionSounds();
   useVisitorAlert(); // 🔔 Telegram live visitor ping
+
+  const handleFinishIntro = () => {
+    try {
+      sessionStorage.setItem("abdikadir_intro_seen", "true");
+    } catch {}
+    setShowIntro(false);
+  };
 
   useEffect(() => {
     const loadSettings = async () => {
@@ -152,7 +166,7 @@ function AppContent() {
       <AnimatePresence mode="wait">
         {showIntro && (
           <motion.div key="intro" style={{ position: "fixed", inset: 0, zIndex: 999 }}>
-            <Intro onFinish={() => setShowIntro(false)} />
+            <Intro onFinish={handleFinishIntro} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -164,13 +178,11 @@ function AppContent() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          {/* ── Global chrome ────────────────────────────────────────── */}
+          {/* ── Global chrome (Optimized for 60-120fps performance) ──── */}
           <CustomCursor />
-          <ParticleCursor />
           <SectionProgress />
           <ScrollProgress />
           <NeuralBackground />
-          <CursorFollower />
           <BackToTop />
           <SoundToggle />
 

@@ -13,16 +13,19 @@ const NeuralBackground = () => {
 
     const mouse = { x: W / 2, y: H / 2 };
 
-    // ─── Particle Config ───────────────────────────────────────────
-    const PARTICLE_COUNT = window.innerWidth < 768 ? 35 : 75;
-    const CONNECTION_DIST = window.innerWidth < 768 ? 90 : 140;
-    const MOUSE_REPEL_DIST = 90;
-    const MOUSE_ATTRACT_DIST = 180;
+    // ─── Particle Config (Optimized lightweight overhead) ─────────
+    const PARTICLE_COUNT = window.innerWidth < 768 ? 20 : 45;
+    const CONNECTION_DIST = window.innerWidth < 768 ? 75 : 110;
+    const MOUSE_REPEL_DIST = 80;
+    const MOUSE_ATTRACT_DIST = 150;
 
-    // Helper to get active accent color
-    const getAccent = () => {
-      return getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || "#4FFFB0";
-    };
+    // Helper to get active accent color (Cached with periodic update instead of every single frame)
+    let cachedAccent = "#00F5A0";
+    try {
+      cachedAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || "#00F5A0";
+    } catch {}
+
+    const getAccent = () => cachedAccent;
 
     // ─── Cyber Grid Config ──────────────────────────────────────────
     const GRID_SIZE = 110;

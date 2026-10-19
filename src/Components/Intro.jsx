@@ -140,17 +140,17 @@ export default function Intro({ onFinish }) {
   const [phase, setPhase] = useState(0);
   // phase 0 → loading, phase 1 → name reveal, phase 2 → done
   const [scrambleReady, setScrambleReady] = useState(false);
-  const progress = useProgress(phase === 0, 1800);
-  const scrambled = useScramble("ABDIKADIR KOSAR", scrambleReady, 28);
+  const progress = useProgress(phase === 0, 700);
+  const scrambled = useScramble("ABDIKADIR KOSAR", scrambleReady, 18);
 
   useEffect(() => {
     if (phase === 0 && progress >= 100) {
-      const t = setTimeout(() => setPhase(1), 200);
+      const t = setTimeout(() => setPhase(1), 100);
       return () => clearTimeout(t);
     }
     if (phase === 1) {
-      const t1 = setTimeout(() => setScrambleReady(true), 100);
-      const t2 = setTimeout(() => onFinish?.(), 2000);
+      const t1 = setTimeout(() => setScrambleReady(true), 50);
+      const t2 = setTimeout(() => onFinish?.(), 650);
       return () => { clearTimeout(t1); clearTimeout(t2); };
     }
   }, [phase, progress, onFinish]);
@@ -300,20 +300,28 @@ export default function Intro({ onFinish }) {
         </AnimatePresence>
       </div>
 
+      {/* Instant Skip button for visitors who want direct access */}
+      <button
+        onClick={() => onFinish?.()}
+        className="absolute top-6 right-6 z-50 px-3.5 py-1.5 rounded-full border border-white/10 bg-white/[0.04] hover:bg-[#00F5A0]/10 hover:border-[#00F5A0]/30 text-white/40 hover:text-[#00F5A0] text-xs font-mono transition-all backdrop-blur-md cursor-pointer"
+      >
+        Skip ➔
+      </button>
+
       {/* Corner decorators */}
       {["top-5 left-5", "top-5 right-5", "bottom-5 left-5", "bottom-5 right-5"].map((pos, i) => (
         <div key={i} className={`absolute ${pos} w-5 h-5 pointer-events-none`}>
-          <div className="absolute top-0 left-0 w-full h-[1px] bg-[#4FFFB0]/20" />
-          <div className="absolute top-0 left-0 w-[1px] h-full bg-[#4FFFB0]/20" />
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-[#00F5A0]/20" />
+          <div className="absolute top-0 left-0 w-[1px] h-full bg-[#00F5A0]/20" />
         </div>
       ))}
       <div className="absolute top-5 right-5 w-5 h-5 pointer-events-none">
-        <div className="absolute top-0 right-0 w-full h-[1px] bg-[#4FFFB0]/20" />
-        <div className="absolute top-0 right-0 w-[1px] h-full bg-[#4FFFB0]/20" />
+        <div className="absolute top-0 right-0 w-full h-[1px] bg-[#00F5A0]/20" />
+        <div className="absolute top-0 right-0 w-[1px] h-full bg-[#00F5A0]/20" />
       </div>
       <div className="absolute bottom-5 right-5 w-5 h-5 pointer-events-none">
-        <div className="absolute bottom-0 right-0 w-full h-[1px] bg-[#4FFFB0]/20" />
-        <div className="absolute bottom-0 right-0 w-[1px] h-full bg-[#4FFFB0]/20" />
+        <div className="absolute bottom-0 right-0 w-full h-[1px] bg-[#00F5A0]/20" />
+        <div className="absolute bottom-0 right-0 w-[1px] h-full bg-[#00F5A0]/20" />
       </div>
     </motion.div>
   );
