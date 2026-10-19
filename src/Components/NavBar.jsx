@@ -251,10 +251,10 @@ const NavBar = () => {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 h-[64px] transition-all duration-300 ${
           scrolled
-            ? "border-b border-white/[0.07] shadow-[0_8px_32px_rgba(0,0,0,0.55)]"
+            ? "border-b border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.65)]"
             : "border-b border-transparent"
         }`}
-        style={{ backdropFilter: "blur(20px)", background: "rgba(8,8,14,0.88)" }}
+        style={{ backdropFilter: "blur(24px)", background: "rgba(6,7,11,0.85)" }}
       >
         <div className="flex h-full items-center justify-between px-5 xl:px-[10%] lg:px-8 gap-4">
 
@@ -267,15 +267,15 @@ const NavBar = () => {
               <img
                 src="/logo.png"
                 alt="Abdikadir"
-                className="h-8 w-8 rounded-full object-cover border border-white/10 group-hover:border-[#4FFFB0]/40 transition-all duration-300"
+                className="h-8 w-8 rounded-full object-cover border border-white/10 group-hover:border-[#00F5A0]/50 transition-all duration-300 shadow-[0_0_12px_rgba(0,0,0,0.5)]"
               />
               <div
                 className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ boxShadow: "0 0 14px rgba(79,255,176,0.4)" }}
+                style={{ boxShadow: "0 0 16px rgba(0,245,160,0.5)" }}
               />
             </div>
-            <span className="font-mono text-[15px] font-bold text-white group-hover:text-[#4FFFB0] transition-colors duration-200">
-              Abdikadir<span className="text-[#4FFFB0]" style={{ textShadow: "0 0 10px rgba(79,255,176,0.6)" }}>.</span>
+            <span className="font-mono text-[15px] font-bold text-white group-hover:text-[#00F5A0] transition-colors duration-200">
+              Abdikadir<span className="text-[#00F5A0]" style={{ textShadow: "0 0 12px rgba(0,245,160,0.8)" }}>.</span>
             </span>
           </button>
 
@@ -296,8 +296,8 @@ const NavBar = () => {
                       active === link.id ? "w-4 opacity-100" : "w-0 opacity-0 group-hover:w-3 group-hover:opacity-60"
                     }`}
                     style={{
-                      background: "linear-gradient(90deg,#4FFFB0,#38bdf8)",
-                      boxShadow: active === link.id ? "0 0 6px rgba(79,255,176,0.7)" : "none",
+                      background: "linear-gradient(90deg, #00F5A0, #00D2FF)",
+                      boxShadow: active === link.id ? "0 0 8px rgba(0,245,160,0.8)" : "none",
                     }}
                   />
                 </button>

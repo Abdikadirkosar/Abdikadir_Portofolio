@@ -4,9 +4,10 @@
 
 /* ── Root defaults ────────────────────────────────────────────────────── */
 :root {
-  --accent:     #4FFFB0;
-  --accent-dim: rgba(79, 255, 176, 0.25);
-  --bg:         #0A0A0A;
+  --accent:           #00F5A0;
+  --accent-secondary: #00D2FF;
+  --accent-dim:       rgba(0, 245, 160, 0.2);
+  --bg:               #06070B;
 }
 
 .heading {
@@ -319,17 +320,20 @@ html.light [class*="rounded-3xl"] {
   box-shadow: var(--card-shadow, 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 20px 40px -15px rgba(5, 150, 105, 0.06)) !important;
 }
 
-/* ── OLED Obsidian Dark Mode — Deepen section backgrounds to #07070A ──────── */
+/* ── OLED Obsidian Dark Mode — Deepen section backgrounds to #06070B ──────── */
 html:not(.light) [class*="bg-[#0A0A0A]"],
 html:not(.light) [class*="bg-[#0a0a0a]"],
 html:not(.light) [class*="bg-[#0A0A0E]"],
-html:not(.light) [class*="bg-[#0a0a0e]"] {
-  background-color: #07070A !important;
+html:not(.light) [class*="bg-[#0a0a0e]"],
+html:not(.light) [class*="bg-[#07070A]"],
+html:not(.light) [class*="bg-[#080810]"],
+html:not(.light) [class*="bg-[#0d0d14]"] {
+  background-color: #06070B !important;
 }
 
 /* ── Dark Mode Scrollbar — OLED matched ──────────────────────────────────── */
-html:not(.light) ::-webkit-scrollbar { background: #07070A; }
-html:not(.light) ::-webkit-scrollbar-track { background: #07070A; }
+html:not(.light) ::-webkit-scrollbar { background: #06070B; }
+html:not(.light) ::-webkit-scrollbar-track { background: #06070B; }
 
 /* ── Light Mode Scrollbar ─────────────────────────────────────────────────── */
 html.light ::-webkit-scrollbar { background: #F1F5F9; }
@@ -343,17 +347,17 @@ html {
 }
 
 /* ── Custom scrollbar ─────────────────────────────────────────────────── */
-::-webkit-scrollbar        { width: 5px; background: #0a0a0a; }
-::-webkit-scrollbar-track  { background: #0a0a0a; }
-::-webkit-scrollbar-thumb  { background: rgba(79,255,176,0.35); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(79,255,176,0.6); }
+::-webkit-scrollbar        { width: 5px; background: #06070B; }
+::-webkit-scrollbar-track  { background: #06070B; }
+::-webkit-scrollbar-thumb  { background: rgba(0,245,160,0.35); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,245,160,0.65); }
 
 /* ── Selection color ──────────────────────────────────────────────────── */
-::selection { background: rgba(79,255,176,0.25); color: #fff; }
+::selection { background: rgba(0,245,160,0.25); color: #fff; }
 
-/* ── Utility: gradient text ───────────────────────────────────────────── */
+/* ── Utility: gradient text (Holographic Hyper-Mint & Cyan) ───────────── */
 .text-gradient {
-  background: linear-gradient(135deg, #4FFFB0, #7abfab 50%, #4a9a7a);
+  background: linear-gradient(135deg, #00F5A0 0%, #00D2FF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

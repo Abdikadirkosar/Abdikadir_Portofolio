@@ -17,20 +17,20 @@ const StatCard = ({ icon: Icon, label, value, accent, delay = 0, sub }) => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
-    className="relative rounded-2xl border border-white/[0.06] bg-[#0d0d14]/80 p-5 overflow-hidden group hover:border-white/[0.1] transition-colors duration-300"
+    className="relative rounded-2xl border border-white/[0.08] bg-[#0C0E17]/85 p-5 overflow-hidden group hover:border-white/[0.15] transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
   >
-    <div className="absolute top-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${accent}50, transparent)` }} />
+    <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${accent}70, transparent)` }} />
     <div className="flex items-start justify-between">
       <div>
-        <p className="text-white/30 text-[10px] font-mono uppercase tracking-widest mb-2">{label}</p>
-        <p className="text-white text-3xl font-black">{value ?? "—"}</p>
-        {sub && <p className="text-white/25 text-[10px] font-mono mt-1">{sub}</p>}
+        <p className="text-white/40 text-[10px] font-mono uppercase tracking-widest mb-2 font-medium">{label}</p>
+        <p className="text-white text-3xl font-black tracking-tight">{value ?? "—"}</p>
+        {sub && <p className="text-white/30 text-[10px] font-mono mt-1">{sub}</p>}
       </div>
-      <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${accent}12`, border: `1px solid ${accent}20` }}>
+      <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(0,0,0,0.5)]" style={{ background: `${accent}15`, border: `1px solid ${accent}30` }}>
         <Icon size={18} style={{ color: accent }} />
       </div>
     </div>
-    <div className="absolute bottom-0 left-0 h-px w-0 group-hover:w-full transition-all duration-700" style={{ background: `linear-gradient(90deg, ${accent}60, transparent)` }} />
+    <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-700" style={{ background: `linear-gradient(90deg, ${accent}, transparent)` }} />
   </motion.div>
 );
 
@@ -38,10 +38,10 @@ const StatCard = ({ icon: Icon, label, value, accent, delay = 0, sub }) => (
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload?.length) {
     return (
-      <div className="bg-[#0d0d14] border border-white/10 rounded-xl px-3 py-2 text-xs font-mono">
-        <p className="text-white/40 mb-1">{label}</p>
+      <div className="bg-[#0C0E17] border border-white/15 rounded-xl px-3 py-2 text-xs font-mono shadow-[0_10px_25px_rgba(0,0,0,0.8)]">
+        <p className="text-white/50 mb-1">{label}</p>
         {payload.map((p, i) => (
-          <p key={i} style={{ color: p.color || "#4FFFB0" }}>{p.name}: {p.value}</p>
+          <p key={i} style={{ color: p.color || "#00F5A0" }} className="font-bold">{p.name}: {p.value}</p>
         ))}
       </div>
     );
@@ -200,26 +200,26 @@ const Dashboard = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="flex items-center gap-5 p-5 rounded-2xl border border-white/[0.06] bg-[#0d0d14]/80 relative overflow-hidden"
+          className="flex items-center gap-5 p-5 rounded-2xl border border-white/[0.08] bg-[#0C0E17]/90 relative overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.5)]"
         >
-          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, #4FFFB0 40%, transparent)" }} />
+          <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #00F5A0 30%, #00D2FF 70%, transparent)" }} />
           {/* Avatar */}
           <div className="relative flex-shrink-0">
             <img
               src={profile.avatar || "/Photos/image copy 2.png"}
               alt={profile.name}
-              className="w-16 h-16 rounded-2xl object-cover border-2 border-[#4FFFB0]/30"
+              className="w-16 h-16 rounded-2xl object-cover border-2 border-[#00F5A0]/40 shadow-[0_0_15px_rgba(0,245,160,0.2)]"
               onError={e => { e.currentTarget.src = "/Photos/image copy 2.png"; }}
             />
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#4FFFB0] border-2 border-[#0d0d14] flex items-center justify-center">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#0d0d14]" />
+            <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#00F5A0] border-2 border-[#0C0E17] flex items-center justify-center shadow-[0_0_8px_#00F5A0]">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#0C0E17]" />
             </div>
           </div>
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <h2 className="text-white font-black text-lg">{profile.name || "Admin"}</h2>
-            <p className="text-[#4FFFB0] text-xs font-mono truncate">{profile.title || "Portfolio Admin"}</p>
-            <div className="flex items-center gap-4 mt-2 text-white/30 text-[10px] font-mono">
+            <h2 className="text-white font-black text-lg tracking-tight">{profile.name || "Abdikadir Kosar"}</h2>
+            <p className="text-[#00F5A0] text-xs font-mono font-bold truncate">{profile.title || "Senior Full-Stack & AI Engineer"}</p>
+            <div className="flex items-center gap-4 mt-2 text-white/40 text-[10px] font-mono">
               {profile.location && <span className="flex items-center gap-1"><MapPin size={9} />{profile.location}</span>}
               {profile.email && <span className="flex items-center gap-1"><Mail size={9} />{profile.email}</span>}
             </div>
@@ -234,12 +234,12 @@ const Dashboard = () => {
             )}
             {profile.linkedin && (
               <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"
-                className="w-8 h-8 rounded-xl border border-white/10 flex items-center justify-center text-white/40 hover:text-[#38bdf8] hover:border-[#38bdf8]/30 transition-all">
+                className="w-8 h-8 rounded-xl border border-white/10 flex items-center justify-center text-white/40 hover:text-[#00D2FF] hover:border-[#00D2FF]/40 transition-all">
                 <Link2 size={13} />
               </a>
             )}
             <a href="/" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#4FFFB0]/20 bg-[#4FFFB0]/5 text-[#4FFFB0] text-[10px] font-mono hover:bg-[#4FFFB0]/10 transition-all">
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#00F5A0]/30 bg-[#00F5A0]/10 text-[#00F5A0] text-[10px] font-mono hover:bg-[#00F5A0]/20 transition-all shadow-[0_0_12px_rgba(0,245,160,0.15)] font-bold">
               <ExternalLink size={10} /> View Site
             </a>
           </div>
@@ -249,32 +249,32 @@ const Dashboard = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black text-white">Dashboard</h1>
-          <p className="text-white/30 text-sm mt-1">Portfolio analytics &amp; real-time overview</p>
+          <h1 className="text-2xl font-black text-white tracking-tight">Studio Dashboard</h1>
+          <p className="text-white/40 text-sm mt-1">Real-time enterprise metrics &amp; visitor telemetry</p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#4FFFB0]/20 bg-[#4FFFB0]/5 text-[10px] font-mono text-[#4FFFB0]">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#00F5A0]/30 bg-[#00F5A0]/10 text-[10px] font-mono text-[#00F5A0] font-bold shadow-[0_0_15px_rgba(0,245,160,0.15)]">
           <span className="relative flex h-1.5 w-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4FFFB0] opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#4FFFB0]" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00F5A0] opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#00F5A0]" />
           </span>
           <Activity size={10} />
-          Live
+          Live Telemetry
         </div>
       </div>
 
       {/* Stats row 1 */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-3">
-        <StatCard icon={FolderKanban} label="Projects"    value={stats.projects} accent="#4FFFB0" delay={0} />
-        <StatCard icon={BookOpen}     label="Blog Posts"  value={stats.blogs}    accent="#a855f7" delay={0.04} />
-        <StatCard icon={Calendar}     label="Bookings"    value={stats.bookings} accent="#c084fc" delay={0.08}
+        <StatCard icon={FolderKanban} label="Projects"    value={stats.projects} accent="#00F5A0" delay={0} />
+        <StatCard icon={BookOpen}     label="Blog Posts"  value={stats.blogs}    accent="#00D2FF" delay={0.04} />
+        <StatCard icon={Calendar}     label="Bookings"    value={stats.bookings} accent="#38BDF8" delay={0.08}
           sub="Discovery Calls" />
-        <StatCard icon={Mail}         label="Messages"    value={stats.messages} accent="#38bdf8" delay={0.12}
+        <StatCard icon={Mail}         label="Messages"    value={stats.messages} accent="#818CF8" delay={0.12}
           sub={stats.unread > 0 ? `${stats.unread} unread` : "all read"} />
-        <StatCard icon={Eye}          label="Page Views"  value={stats.views}    accent="#fb923c" delay={0.16} />
-        <StatCard icon={Heart}        label="Likes"       value={stats.likes}    accent="#f472b6" delay={0.2} />
+        <StatCard icon={Eye}          label="Page Views"  value={stats.views}    accent="#00F5A0" delay={0.16} />
+        <StatCard icon={Heart}        label="Likes"       value={stats.likes}    accent="#F43F5E" delay={0.2} />
         <StatCard icon={Zap}          label="Engagement"
           value={stats.views > 0 ? `${Math.round((stats.likes / stats.views) * 100)}%` : "0%"}
-          accent="#facc15" delay={0.24} sub="likes / views" />
+          accent="#FBBF24" delay={0.24} sub="likes / views" />
       </div>
 
       {/* Views chart + Activity */}
@@ -282,20 +282,20 @@ const Dashboard = () => {
         {/* Line chart */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-          className="rounded-2xl border border-white/[0.06] bg-[#0d0d14]/80 p-6"
+          className="rounded-2xl border border-white/[0.08] bg-[#0C0E17]/85 p-6 shadow-[0_10px_35px_rgba(0,0,0,0.4)]"
         >
           <div className="flex items-center gap-2 mb-6">
-            <TrendingUp size={15} className="text-[#4FFFB0]" />
-            <h2 className="text-white font-bold text-sm">Page Views — Last 14 Days</h2>
+            <TrendingUp size={15} className="text-[#00F5A0]" />
+            <h2 className="text-white font-bold text-sm tracking-tight">Traffic Velocity — Last 14 Days</h2>
           </div>
           {viewsData.length > 0 ? (
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={viewsData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10, fontFamily: "monospace" }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "rgba(255,255,255,0.25)", fontSize: 10, fontFamily: "monospace" }} axisLine={false} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10, fontFamily: "monospace" }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10, fontFamily: "monospace" }} axisLine={false} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
-                <Line type="monotone" dataKey="views" stroke="#4FFFB0" strokeWidth={2} dot={{ fill: "#4FFFB0", r: 3 }} activeDot={{ r: 5 }} />
+                <Line type="monotone" dataKey="views" stroke="#00F5A0" strokeWidth={2.5} dot={{ fill: "#00F5A0", r: 3, stroke: "#06070B", strokeWidth: 1.5 }} activeDot={{ r: 6, fill: "#00D2FF" }} />
               </LineChart>
             </ResponsiveContainer>
           ) : (
@@ -375,11 +375,11 @@ const Dashboard = () => {
         {/* Device breakdown */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
-          className="rounded-2xl border border-white/[0.06] bg-[#0d0d14]/80 p-6"
+          className="rounded-2xl border border-white/[0.08] bg-[#0C0E17]/85 p-6 shadow-[0_10px_35px_rgba(0,0,0,0.4)]"
         >
           <div className="flex items-center gap-2 mb-5">
-            <Monitor size={15} className="text-[#a855f7]" />
-            <h2 className="text-white font-bold text-sm">Device Breakdown</h2>
+            <Monitor size={15} className="text-[#00D2FF]" />
+            <h2 className="text-white font-bold text-sm tracking-tight">Device Breakdown</h2>
           </div>
           {deviceData.some(d => d.value > 0) ? (
             <>
@@ -411,27 +411,27 @@ const Dashboard = () => {
         {/* Recent messages */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-          className="rounded-2xl border border-white/[0.06] bg-[#0d0d14]/80 p-6"
+          className="rounded-2xl border border-white/[0.08] bg-[#0C0E17]/85 p-6 shadow-[0_10px_35px_rgba(0,0,0,0.4)]"
         >
           <div className="flex items-center gap-2 mb-5">
             <MessageSquare size={15} className="text-[#38bdf8]" />
-            <h2 className="text-white font-bold text-sm">Recent Messages</h2>
+            <h2 className="text-white font-bold text-sm tracking-tight">Recent Messages</h2>
           </div>
           <div className="flex flex-col gap-3">
             {recentMessages.length === 0 && (
               <p className="text-white/20 text-xs font-mono">No messages yet</p>
             )}
             {recentMessages.map((msg) => (
-              <div key={msg.id} className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                <div className="w-7 h-7 rounded-full bg-[#38bdf8]/15 border border-[#38bdf8]/25 flex items-center justify-center flex-shrink-0 text-[#38bdf8] text-xs font-bold">
+              <div key={msg.id} className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/10 transition-colors">
+                <div className="w-7 h-7 rounded-full bg-[#38bdf8]/15 border border-[#38bdf8]/30 flex items-center justify-center flex-shrink-0 text-[#38bdf8] text-xs font-bold">
                   {(msg.name || "?")[0].toUpperCase()}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-white/80 text-xs font-medium truncate">{msg.name}</p>
-                  <p className="text-white/30 text-[10px] font-mono truncate">{msg.subject || msg.email}</p>
+                  <p className="text-white/90 text-xs font-medium truncate">{msg.name}</p>
+                  <p className="text-white/40 text-[10px] font-mono truncate">{msg.subject || msg.email}</p>
                 </div>
                 {!msg.is_read && (
-                  <div className="w-2 h-2 rounded-full bg-[#4FFFB0] flex-shrink-0 mt-1" />
+                  <div className="w-2 h-2 rounded-full bg-[#00F5A0] shadow-[0_0_8px_#00F5A0] flex-shrink-0 mt-1" />
                 )}
               </div>
             ))}
